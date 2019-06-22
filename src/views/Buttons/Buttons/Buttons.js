@@ -597,7 +597,7 @@ class Buttons extends Component {
           </CardHeader>
           <CardBody>
             <Row className="align-items-center mt-3">
-              <Col sm xs="12" className="text-center mt-3">
+              <Col sm xs="12" className=" text-center mt-3">
                 <Button color="primary">
                   <i className="fa fa-lightbulb-o"></i>&nbsp;Standard Button
                 </Button>

@@ -1,24 +1,10 @@
 import React, { Component, lazy, Suspense } from 'react';
 import { Bar, Line } from 'react-chartjs-2';
 import {
-  Badge,
-  Button,
-  ButtonDropdown,
-  ButtonGroup,
-  ButtonToolbar,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  Col,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Progress,
-  Row,
-  Table,
+  Badge,Button,ButtonDropdown,ButtonGroup,ButtonToolbar,Card,CardBody,CardFooter,
+  CardHeader,CardTitle,Col,Dropdown,DropdownItem,DropdownMenu,DropdownToggle,
+  Progress,Row,Table, Fade, Collapse, Modal, ModalHeader, ModalBody, Form, 
+  FormGroup, Label, Input, ModalFooter,ListGroupItem, ListGroup,
 } from 'reactstrap';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities'
@@ -458,10 +444,15 @@ class Dashboard extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
+    this.toggleFade = this.toggleFade.bind(this);
+    this.togglemodal = this.togglemodal.bind(this);
 
     this.state = {
       dropdownOpen: false,
       radioSelected: 2,
+      fadeIn: true,
+      timeout: 300,
+      modal: false,
     };
   }
 
@@ -477,110 +468,455 @@ class Dashboard extends Component {
     });
   }
 
+  toggleFade() {
+    this.setState((prevState) => { 
+      return { fadeIn: !prevState }
+    });
+  }
+
+  togglemodal() {
+    this.setState({
+      modal: !this.state.modal,
+    });
+  }
+
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
   render() {
-
     return (
       <div className="animated fadeIn">
-        <Row>
-          <Col xs="12" sm="6" lg="3">
-            <Card className="text-white bg-info">
-              <CardBody className="pb-0">
-                <ButtonGroup className="float-right">
-                  <ButtonDropdown id='card1' isOpen={this.state.card1} toggle={() => { this.setState({ card1: !this.state.card1 }); }}>
-                    <DropdownToggle caret className="p-0" color="transparent">
-                      <i className="icon-settings"></i>
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                      <DropdownItem>Action</DropdownItem>
-                      <DropdownItem>Another action</DropdownItem>
-                      <DropdownItem disabled>Disabled action</DropdownItem>
-                      <DropdownItem>Something else here</DropdownItem>
-                    </DropdownMenu>
-                  </ButtonDropdown>
-                </ButtonGroup>
-                <div className="text-value">9.823</div>
-                <div>Members online</div>
-              </CardBody>
-              <div className="chart-wrapper mx-3" style={{ height: '70px' }}>
-                <Line data={cardChartData2} options={cardChartOpts2} height={70} />
-              </div>
-            </Card>
+         <Row>
+          <Col xs="12" sm="6" md="4">
+            <Fade timeout={this.state.timeout} in={this.state.fadeIn}>
+              <Card className='dash-card card-accent-info shadow-sm'>
+                <CardHeader>
+                  <span>Your Info Card</span>
+                  <div className="card-header-actions">
+                  <Button onClick={this.togglemodal} outline className='card-header-action' id='modalbtn'><i className="fa fa-pencil"></i></Button>
+                    <Modal isOpen={this.state.modal} toggle={this.togglemodal} className={'modal-lg modal-info '+ this.props.className} id='modalCenter'>
+                      <ModalHeader toggle={this.togglemodal}>
+                        <strong>Self-Info Card</strong>
+                        <small> Editing</small>
+                      </ModalHeader>
+                      <ModalBody>
+                        <Row>
+                          <Col lg='6' xs='6' className='pl-4 pr-3'>
+                            <h5 className='ml-1'><ins>Personal</ins></h5>
+                            <Row className='pb-0 mb-0'>
+                              <Col md='9'>
+                              <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
+                                  <FormGroup row>
+                                  <Col md="5" className="mt-1">
+                                    <Label htmlFor="Firstname"><i className="fa fa-id-card-o"></i> First Name</Label>
+                                  </Col>
+                                  <Col xs="12" md="7" className=" ml-0 pl-0">
+                                    <Input type="text" id="Firstname" name="text-input" placeholder="required" required/>
+                                  </Col>
+                                  </FormGroup>
+                                  <FormGroup row>
+                                  <Col md="5" className=" mr-0 mt-1">
+                                    <Label htmlFor='Lastname'><i className="fa fa-id-card-o"></i> Last Name</Label>
+                                  </Col>
+                                  <Col xs="12" md="7" className=" ml-0 pl-0">
+                                    <Input type="text" id="Lastname" name="text-input" placeholder="required" required/>
+                                  </Col>
+                                  </FormGroup>
+                                  <FormGroup row>
+                                  <Col md="5" className="mt-1" >
+                                    <Label htmlFor="nickname"><i className="fa fa-id-card-o"></i> Nickname</Label>
+                                  </Col>
+                                  <Col xs="12" md="7" className=" ml-0 pl-0">
+                                    <Input type="text" id="nickname" name="text-input" placeholder="required" required/>
+                                  </Col>
+                                  </FormGroup>
+                                </Form>
+                              </Col>
+                              <Col md='3' className='text-center mt-3'>
+                                <img src={'../../assets/img/avatars/6.jpg'} className="img-avatar mb-3" alt="admin@bootstrapmaster.com" />
+                                <a href='#'> Upload Photo</a>
+                              </Col>
+                            </Row>
+
+                            <Row className='mt-1'>
+                              <Col md='3'>
+                                <FormGroup check inline>
+                                  <Input className="form-check-input" type="radio" id="inline-radio1" name="inline-radios" value="Male" />
+                                  <Label className="form-check-label" check htmlFor="inline-radio1">Male</Label>
+                                </FormGroup>
+                                <FormGroup check inline>
+                                  <Input className="form-check-input" type="radio" id="inline-radio2" name="inline-radios" value="Female" />
+                                  <Label className="form-check-label" check htmlFor="inline-radio2">Female</Label>
+                                </FormGroup>
+                              </Col>
+                              <Col md='9'>
+                              <FormGroup row>
+                                  <Col md="4" className='mt-2'>
+                                    <Label htmlFor="date-input"><i className="fa fa-birthday-cake"></i> Birthday </Label>
+                                  </Col>
+                                  <Col xs="12" md="8">
+                                    <Input type="date" id="date-input" name="date-input" placeholder="date" />
+                                  </Col>
+                              </FormGroup>
+                              </Col>
+                            </Row>
+                            <hr className='mt-0 pt-0'/>
+                            <h6 className='ml-1'><ins>Academics</ins></h6>
+                            <Row className='pb-0 mb-0'>
+                              <Col>
+                                <FormGroup row>
+                                  <Col md="4"  className='mt-2 pl-3'>
+                                    <Label htmlFor="select"><i className="fa fa-institution"></i> Department</Label>
+                                  </Col>
+                                  <Col xs="12" md="8" className=" ml-0 pl-0">
+                                    <Input type="select" name="select" id="select" >
+                                      <option value="0">Please select</option>
+                                      <option value="1">Option #1</option>
+                                      <option value="2">Option #2</option>
+                                      <option value="3">Option #3</option>
+                                    </Input>
+                                  </Col>
+                                </FormGroup>
+                                <FormGroup row>
+                                  <Col md="4"  className='mt-2 pl-3'>
+                                    <Label htmlFor="select"><i className="fa fa-book"></i>  Major</Label>
+                                  </Col>
+                                  <Col xs="12" md="8" className=" ml-0 pl-0">
+                                    <Input type="select" name="select" id="select" >
+                                      <option value="0">Please select</option>
+                                      <option value="1">Option #1</option>
+                                      <option value="2">Option #2</option>
+                                      <option value="3">Option #3</option>
+                                    </Input>
+                                  </Col>
+                                </FormGroup>
+                                <FormGroup row>
+                                  <Col md="5"  className='mt-2 pl-3'>
+                                    <Label htmlFor="select"><i className="fa fa-graduation-cap"></i> Year of Study</Label>
+                                  </Col>
+                                  <Col xs="12" md="7" className=" ml-0 pl-0">
+                                    <Input type="select" name="select" id="select" >
+                                      <option value="0">Please select</option>
+                                      <option value="1">Option #1</option>
+                                      <option value="2">Option #2</option>
+                                      <option value="3">Option #3</option>
+                                    </Input>
+                                  </Col>
+                                </FormGroup>
+                              </Col>
+                            </Row>
+                            <hr className='mt-0 pt-0'/>
+                            <h6 className='ml-1'><ins>Interest {' & '} Favourites</ins></h6>
+                            <FormGroup row className='ml-1 mb-1 pb-0'>
+                              <Badge className="mr-1" color="primary">Anime</Badge>
+                              <Badge className="mr-1" color="primary">Invest Soc</Badge>
+                              <Badge className="mr-1" color="primary">Math Soc</Badge>
+                              </FormGroup>
+                            <Row className='mt-0 pt-0' id='tag-row'>
+                            <Col xs="4">
+                              <FormGroup>
+                                <Label htmlFor="ccmonth"><i className="fa fa-tag"></i> Interest</Label>
+                                <Input type="select" name="ccmonth" id="ccmonth">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                </Input>
+                              </FormGroup>
+                            </Col>
+                            <Col xs="4">
+                              <FormGroup>
+                                <Label htmlFor="ccyear"><i className="fa fa-tag"></i> Favourites</Label>
+                                <Input type="select" name="ccyear" id="ccyear">
+                                  <option>2017</option>
+                                  <option>2018</option>
+                                  <option>2019</option>
+                                </Input>
+                              </FormGroup>
+                            </Col>
+                            <Col xs="4">
+                              <FormGroup>
+                                <Label htmlFor="cvv"><i className="fa fa-tags"></i> Other Tags</Label>
+                                <Input type="text" id="cvv" placeholder="123" required />
+                              </FormGroup>
+                            </Col>
+                          </Row>
+                          </Col>
+                          <Col lg='6'>
+                            <h5 className='ml-1'><ins>Contacts</ins></h5>
+                            <Row className='mb-1'>
+                              <Col>
+                                <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
+                                  <FormGroup row>
+                                  <Col md="3" className="pr-1 mt-1">
+                                    <Label htmlFor="Phone"><i className="fa fa-phone"></i> Phone</Label>
+                                  </Col>
+                                  <Col xs="12" md="9">
+                                    <Input type="text" id="Phone" name="text-input" placeholder="required" required/>
+                                  </Col>
+                                  </FormGroup>
+                                  <FormGroup row>
+                                  <Col md="3" className="pr-1 mt-1">
+                                    <Label htmlFor="Email"><i className="fa fa-envelope"></i> Email</Label>
+                                  </Col>
+                                  <Col xs="12" md="9">
+                                    <Input type="text" id="Email" name="text-input" placeholder="required" required/>
+                                  </Col>
+                                  </FormGroup>
+                                  <FormGroup row>
+                                  <Col md="3" className="pr-1 mt-1" >
+                                    <Label htmlFor="Residence"><i className="fa fa-building"></i> Residence</Label>
+                                  </Col>
+                                  <Col xs="12" md="9">
+                                    <Input type="text" id="Residence" name="text-input" placeholder="required" required/>
+                                  </Col>
+                                  </FormGroup>
+                                </Form>
+                              </Col>
+                            </Row>
+                            <hr className='mt-0 pt-0'/>
+                            <h6 className='ml-1'><ins>Social contacts</ins></h6>
+                            <Row>
+                            <Col xs="4">
+                              <FormGroup>
+                                <Label htmlFor="ccmonth"><i className="fa fa-feed"></i> Channel</Label>
+                                <Input type="select" name="ccmonth" id="ccmonth">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                </Input>
+                              </FormGroup>
+                            </Col>
+                            <Col xs="8">
+                              <FormGroup>
+                                <Label htmlFor="ccyear"><i className="fa fa-user"></i> Account</Label>
+                                <Input type="select" name="ccyear" id="ccyear">
+                                  <option>2017</option>
+                                  <option>2018</option>
+                                  <option>2019</option>
+                                </Input>
+                              </FormGroup>
+                            </Col>
+                          </Row>
+                          <hr className='mt-0 pt-0'/>
+                          <h6 className='ml-1 pb-2'><ins>Best Memories</ins></h6>
+                          <Row>
+                            <Col>
+                            <FormGroup row>
+                              <Col xs="1"><i className="fa fa-plus-circle pt-2 mr-0" id='fa-pin'></i> </Col>
+                              <Col xs="12" md="5" className=" ml-0 pl-0">
+                                <Input type="date" id="date-input" name="date-input" placeholder="date" />
+                              </Col>
+                              <Col xs="6" >
+                                <FormGroup>
+                                  <Input type="text" id="Phone" name="text-input" placeholder="required"/>
+                                </FormGroup>
+                            </Col>
+                            </FormGroup>
+                            <FormGroup row>
+                              <Col md="3"  className="mr-0 pr-0">
+                              
+                                <Label htmlFor="textarea-input"><i className="fa fa-thumb-tack"></i> Additional Notes</Label>
+                              </Col>
+                              <Col xs="12" md="9">
+                                <Input type="textarea" name="textarea-input" id="textarea-input" rows="4"
+                                      placeholder="Content..." />
+                              </Col>
+                            </FormGroup>
+                            </Col>                    
+                          </Row>
+                          </Col>
+                        </Row>
+                        
+                      </ModalBody>
+                      <ModalFooter>
+                        <Button color="primary" onClick={this.togglemodal}>Add</Button>{' '}
+                        <Button color="secondary" onClick={this.togglemodal}>Cancel</Button>
+                      </ModalFooter>
+                    </Modal>
+                  </div>
+                </CardHeader>
+                <CardBody className='text-center'>
+                  <img src={'assets/img/avatars/4.jpg'}  className="rounded-circle w-50 pb-2" id='user-icon' alt="admin@bootstrapmaster.com" />
+                  <h4 className='pb-0 mb-0'><strong className='Username'>Araon Menendez </strong><i className='fa fa-mars male'></i><i className='fa fa-venus female'></i></h4>
+                  <p className='pt-0 mt-0 pb-0 mb-0'>Applied Mathematics</p>
+                  <p className='pt-0 mt-0 pb-0 mb-0'>Undergraduate-Year 2 </p>
+                  <hr/>
+                  <div className="text-center">
+                      <Badge className="user-tag" color="primary">Anime</Badge>
+                      <Badge className="user-tag" color="primary">Invest Soc</Badge>
+                      <Badge className="user-tag" color="primary">Math Soc</Badge>
+                  </div>
+                </CardBody>
+              </Card>
+            </Fade>
           </Col>
 
-          <Col xs="12" sm="6" lg="3">
-            <Card className="text-white bg-primary">
-              <CardBody className="pb-0">
-                <ButtonGroup className="float-right">
-                  <Dropdown id='card2' isOpen={this.state.card2} toggle={() => { this.setState({ card2: !this.state.card2 }); }}>
-                    <DropdownToggle className="p-0" color="transparent">
-                      <i className="icon-location-pin"></i>
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                      <DropdownItem>Action</DropdownItem>
-                      <DropdownItem>Another action</DropdownItem>
-                      <DropdownItem>Something else here</DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
-                </ButtonGroup>
-                <div className="text-value">9.823</div>
-                <div>Members online</div>
-              </CardBody>
-              <div className="chart-wrapper mx-3" style={{ height: '70px' }}>
-                <Line data={cardChartData1} options={cardChartOpts1} height={70} />
-              </div>
-            </Card>
+          <Col xs="12" sm="6" md="4"> 
+            <Fade timeout={this.state.timeout} in={this.state.fadeIn}>
+              <Card className='dash-card card-accent-info shadow-sm'>
+                <CardHeader>
+                  Event Summary
+                </CardHeader>
+                <CardBody className='pl-0 pt-0 ml-0 mt-0 mr-0 pr-0 mb-0 pb-0'>
+                  <div>
+                    <ListGroup className="list-group-accent" tag={'div'}>
+                  <ListGroupItem className="list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">Today</ListGroupItem>
+                    <ListGroupItem action tag="a" href="#" className="list-group-item-accent-warning list-group-item-divider">
+                      <div className="avatar float-right">
+                        <img className="img-avatar" src="assets/img/avatars/7.jpg" alt="admin@bootstrapmaster.com"></img>
+                      </div>
+                      <div>Meeting with <strong>Lucas</strong> </div>
+                      <small className="text-muted mr-3">
+                        <i className="icon-calendar"></i>&nbsp; 1 - 3pm
+                      </small>
+                      <small className="text-muted">
+                        <i className="icon-location-pin"></i> Palo Alto, CA
+                      </small>
+                    </ListGroupItem>
+                    <ListGroupItem action tag="a" href="#" className="list-group-item-accent-info list-group-item-divider">
+                      <div className="avatar float-right">
+                        <img className="img-avatar" src="assets/img/avatars/4.jpg" alt="admin@bootstrapmaster.com"></img>
+                      </div>
+                      <div>Skype with <strong>Megan</strong></div>
+                      <small className="text-muted mr-3">
+                        <i className="icon-calendar"></i>&nbsp; 4 - 5pm
+                      </small>
+                      <small className="text-muted">
+                        <i className="icon-social-skype"></i> On-line
+                      </small>
+                    </ListGroupItem>
+                    <ListGroupItem className="list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">Tomorrow</ListGroupItem>
+                    <ListGroupItem action tag="a" href="#" className="list-group-item-accent-danger list-group-item-divider">
+                      <div>New UI Project - <strong>deadline</strong></div>
+                      <small className="text-muted mr-3"><i className="icon-calendar"></i>&nbsp; 10 - 11pm</small>
+                      <small className="text-muted"><i className="icon-home"></i>&nbsp; creativeLabs HQ</small>
+                      <div className="avatars-stack mt-2 float-right">
+                        <div className="avatar avatar-xs ">
+                          <img src={'assets/img/avatars/2.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                        </div>
+                        <div className="avatar avatar-xs">
+                          <img src={'assets/img/avatars/3.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                        </div>
+                        <div className="avatar avatar-xs">
+                          <img src={'assets/img/avatars/4.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                        </div>
+                        <div className="avatar avatar-xs">
+                          <img src={'assets/img/avatars/5.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                        </div>
+                        <div className="avatar avatar-xs">
+                          <img src={'assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                        </div>
+                      </div>
+                    </ListGroupItem>
+                    <ListGroupItem action tag="a" href="#" className="list-group-item-accent-primary list-group-item-divider">
+                      <div><strong>Team meeting</strong></div>
+                      <small className="text-muted mr-3"><i className="icon-calendar"></i>&nbsp; 4 - 6pm</small>
+                      <small className="text-muted"><i className="icon-home"></i>&nbsp; creativeLabs HQ</small>
+                      <div className="avatars-stack mt-2 float-right">
+                        <div className="avatar avatar-xs">
+                          <img src={'assets/img/avatars/2.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                        </div>
+                        <div className="avatar avatar-xs">
+                          <img src={'assets/img/avatars/3.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                        </div>
+                        <div className="avatar avatar-xs">
+                          <img src={'assets/img/avatars/4.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                        </div>
+                        <div className="avatar avatar-xs">
+                          <img src={'assets/img/avatars/5.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                        </div>
+                        <div className="avatar avatar-xs">
+                          <img src={'assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                        </div>
+                        <div className="avatar avatar-xs">
+                          <img src={'assets/img/avatars/7.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                        </div>
+                        <div className="avatar avatar-xs">
+                          <img src={'assets/img/avatars/8.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                        </div>
+                      </div>
+                    </ListGroupItem>
+                  </ListGroup>
+                  </div>
+                </CardBody>
+              </Card>
+            </Fade>
           </Col>
+          <Col xs="12" sm="6" md="4">
+            <Fade timeout={this.state.timeout} in={this.state.fadeIn}>
+              <Card className='dash-card card-accent-info shadow-sm'>
+                <CardHeader>
+                  Analysis Summary
+                </CardHeader>
+                <CardBody className='pt-0 mt-3'>
+                  <h6 className='card3-head'> <strong>This Month</strong> </h6>
+                  <hr className='mb-2 mt-2 break1 text-left'/>
+                  <Row className='mb-0 pb-0'>
+                    <Col md='6'>
+                      <h6 className='text-muted'><i className="fa fa-user-plus mr-2"></i> New Friends Added</h6>
+                      <h6 className='text-muted'><i className="fa fa-comments mr-2"></i> New Events Shared</h6> 
+                    </Col>
+                    <Col color='secondary' md='6' className='text-right pr-2 mr-0'>
+                      <h6 className='text-muted'><strong>88</strong></h6>
+                      <h6 className='text-muted'><strong>55</strong></h6>
+                    </Col>
+                  </Row>
+                  <hr className='mt-1 pt-0'/>
+                  <h6 className='card3-head'><strong> Monthly Best Friends </strong></h6>
+                  <hr className='mb-2 mt-2 break2 text-left'/>
+                  <Row className='mb-0 pb-0'>
+                    <Col md='2'>
+                      <div className="avatar pr-0 mr-0">
+                        <img className="img-avatar" src="assets/img/avatars/4.jpg" alt="admin@bootstrapmaster.com"></img>
+                      </div>
+                    </Col>
+                    <Col md='4' className= 'pl-0 ml-0'>
+                      <div className='pt-2 pl-0 ml-0'>Megan Stanley</div>
+                    </Col>
+                    <Col md='6' className='text-right'>
+                      <div>
+                      <small className="text-muted">
+                        <i className="icon-social-skype"></i>&nbsp; 8 Tags
+                      </small>
+                      </div>
+                      <div>
+                      <small className="text-muted">
+                        <i className="icon-calendar"></i>&nbsp; 3 Events
+                      </small>
+                      </div>                     
+                    </Col>                    
+                  </Row>
+                  <hr className='mt-1 pt-0 mb-2 pb-0'/>
+                  <Row>
+                    <Col md='2'>
+                      <div className="avatar pr-0 mr-0">
+                        <img className="img-avatar" src="assets/img/avatars/4.jpg" alt="admin@bootstrapmaster.com"></img>
+                      </div>
+                    </Col>
+                    <Col md='4' className= 'pl-0 ml-0'>
+                      <div className='pt-2 pl-0 ml-0'>Megan Stanley</div>
+                    </Col>
+                    <Col md='6' className='text-right'>
+                      <div>
+                      <small className="text-muted">
+                        <i className="icon-social-skype"></i>&nbsp; 8 Tags
+                      </small>
+                      </div>
+                      <div>
+                      <small className="text-muted">
+                        <i className="icon-calendar"></i>&nbsp; 3 Events
+                      </small>
+                      </div>
+                      
+                    </Col>
+                  </Row>
+                  <hr className='mt-1 pt-0'/>
 
-          <Col xs="12" sm="6" lg="3">
-            <Card className="text-white bg-warning">
-              <CardBody className="pb-0">
-                <ButtonGroup className="float-right">
-                  <Dropdown id='card3' isOpen={this.state.card3} toggle={() => { this.setState({ card3: !this.state.card3 }); }}>
-                    <DropdownToggle caret className="p-0" color="transparent">
-                      <i className="icon-settings"></i>
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                      <DropdownItem>Action</DropdownItem>
-                      <DropdownItem>Another action</DropdownItem>
-                      <DropdownItem>Something else here</DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
-                </ButtonGroup>
-                <div className="text-value">9.823</div>
-                <div>Members online</div>
-              </CardBody>
-              <div className="chart-wrapper" style={{ height: '70px' }}>
-                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
-              </div>
-            </Card>
-          </Col>
-
-          <Col xs="12" sm="6" lg="3">
-            <Card className="text-white bg-danger">
-              <CardBody className="pb-0">
-                <ButtonGroup className="float-right">
-                  <ButtonDropdown id='card4' isOpen={this.state.card4} toggle={() => { this.setState({ card4: !this.state.card4 }); }}>
-                    <DropdownToggle caret className="p-0" color="transparent">
-                      <i className="icon-settings"></i>
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                      <DropdownItem>Action</DropdownItem>
-                      <DropdownItem>Another action</DropdownItem>
-                      <DropdownItem>Something else here</DropdownItem>
-                    </DropdownMenu>
-                  </ButtonDropdown>
-                </ButtonGroup>
-                <div className="text-value">9.823</div>
-                <div>Members online</div>
-              </CardBody>
-              <div className="chart-wrapper mx-3" style={{ height: '70px' }}>
-                <Bar data={cardChartData4} options={cardChartOpts4} height={70} />
-              </div>
-            </Card>
+                </CardBody>
+              </Card>
+            </Fade>
           </Col>
         </Row>
+{/*
         <Row>
           <Col>
             <Card>
@@ -678,16 +1014,16 @@ class Dashboard extends Component {
               </Widget03>
             </Suspense>
           </Col>
-        </Row>
+        </Row> */}
 
         <Row>
           <Col>
-            <Card>
+            <Card className="card-accent-info shadow-sm">
               <CardHeader>
-                Traffic {' & '} Sales
+                Recently Added
               </CardHeader>
-              <CardBody>
-                <Row>
+             <CardBody>
+{/*                  <Row>
                   <Col xs="12" md="6" xl="6">
                     <Row>
                       <Col sm="6">
@@ -891,16 +1227,17 @@ class Dashboard extends Component {
                     </ul>
                   </Col>
                 </Row>
-                <br />
+                <br /> */}
                 <Table hover responsive className="table-outline mb-0 d-none d-sm-table">
                   <thead className="thead-light">
                   <tr>
                     <th className="text-center"><i className="icon-people"></i></th>
-                    <th>User</th>
-                    <th className="text-center">Country</th>
-                    <th>Usage</th>
-                    <th className="text-center">Payment Method</th>
-                    <th>Activity</th>
+                    <th>Name</th>
+                    <th className="text-center">Group</th>
+                    <th className="text-center">Tags</th>
+                    <th className="text-center mr-2">Recent events</th>
+                    <th>Contacts</th>
+                    <th> </th>
                   </tr>
                   </thead>
                   <tbody>
@@ -914,29 +1251,35 @@ class Dashboard extends Component {
                     <td>
                       <div>Yiorgos Avraamu</div>
                       <div className="small text-muted">
-                        <span>New</span> | Registered: Jan 1, 2015
+                        <span>Year 1 Applied Mathematics</span> 
                       </div>
                     </td>
                     <td className="text-center">
-                      <i className="flag-icon flag-icon-us h4 mb-0" title="us" id="us"></i>
+                      <span className='text-muted'>None</span>
                     </td>
                     <td>
-                      <div className="clearfix">
-                        <div className="float-left">
-                          <strong>50%</strong>
-                        </div>
-                        <div className="float-right">
-                          <small className="text-muted">Jun 11, 2015 - Jul 10, 2015</small>
-                        </div>
+                      <div className="text-center">
+                      <Badge className="mr-1" color="primary">Anime</Badge>
+                      <Badge className="mr-1" color="primary">Invest Soc</Badge>
+                      <Badge className="mr-1" color="primary">Math Soc</Badge>
                       </div>
-                      <Progress className="progress-xs" color="success" value="50" />
-                    </td>
-                    <td className="text-center">
-                      <i className="fa fa-cc-mastercard" style={{ fontSize: 24 + 'px' }}></i>
                     </td>
                     <td>
-                      <div className="small text-muted">Last login</div>
-                      <strong>10 sec ago</strong>
+                      <div className='text-center'>
+                      <div className="small text-muted">Last Event</div>
+                      <strong> Math Soc Outing</strong>
+                      </div>
+                    </td>
+                    <td className='mr-0 pr-0'>
+                      <div className="small text-muted"><i className="fa fa-phone mr-1"></i> +65 91802872</div>
+                      <div className="small text-muted"><i className="fa fa-envelope mr-1"></i> YipGum@u.nus.edu.sg</div>
+                    </td>
+                    <td className='pl-0 ml-0 mr-0 pr-0 text-center'>
+                      <div className='mr-0'>
+                      <Button  color='ghost-dark' className='mr-1'><i className="fa fa-pencil"></i></Button>
+                      <Button  color='ghost-dark ' className='mr-1'><i className="fa fa-comments"></i> </Button>
+                      <Button  color='ghost-dark' className='mr-1'><i className="fa fa-trash"></i> </Button>
+                    </div>  
                     </td>
                   </tr>
                   <tr>
@@ -949,30 +1292,35 @@ class Dashboard extends Component {
                     <td>
                       <div>Avram Tarasios</div>
                       <div className="small text-muted">
-
-                        <span>Recurring</span> | Registered: Jan 1, 2015
+                        <span>Associate Prof (Math Dept)</span> 
                       </div>
                     </td>
                     <td className="text-center">
-                      <i className="flag-icon flag-icon-br h4 mb-0" title="br" id="br"></i>
+                      <span className='text-muted'>None</span>
                     </td>
                     <td>
-                      <div className="clearfix">
-                        <div className="float-left">
-                          <strong>10%</strong>
-                        </div>
-                        <div className="float-right">
-                          <small className="text-muted">Jun 11, 2015 - Jul 10, 2015</small>
-                        </div>
+                      <div className="text-center">
+                      <Badge className="mr-1" color="primary">Anime</Badge>
+                      <Badge className="mr-1" color="primary">Invest Soc</Badge>
+                      <Badge className="mr-1" color="primary">Math Soc</Badge>
                       </div>
-                      <Progress className="progress-xs" color="info" value="10" />
-                    </td>
-                    <td className="text-center">
-                      <i className="fa fa-cc-visa" style={{ fontSize: 24 + 'px' }}></i>
                     </td>
                     <td>
-                      <div className="small text-muted">Last login</div>
-                      <strong>5 minutes ago</strong>
+                      <div className='text-center'>
+                      <div className="small text-muted">Last Event</div>
+                      <strong> Math Soc Outing</strong>
+                      </div>
+                    </td>
+                    <td className='mr-0 pr-0'>
+                      <div className="small text-muted"><i className="fa fa-phone mr-1"></i> +65 91802872</div>
+                      <div className="small text-muted"><i className="fa fa-envelope mr-1"></i> YipGum@u.nus.edu.sg</div>
+                    </td>
+                    <td className='pl-0 ml-0 mr-0 pr-0 text-center'>
+                      <div className='mr-0'>
+                      <Button  color='ghost-dark' className='mr-1'><i className="fa fa-pencil"></i></Button>
+                      <Button  color='ghost-dark ' className='mr-1'><i className="fa fa-comments"></i> </Button>
+                      <Button  color='ghost-dark' className='mr-1'><i className="fa fa-trash"></i> </Button>
+                    </div>  
                     </td>
                   </tr>
                   <tr>
@@ -983,31 +1331,37 @@ class Dashboard extends Component {
                       </div>
                     </td>
                     <td>
-                      <div>Quintin Ed</div>
+                      <div>prprprprpr</div>
                       <div className="small text-muted">
-                        <span>New</span> | Registered: Jan 1, 2015
+                        <span>Year 2 Computer Science</span> 
                       </div>
                     </td>
                     <td className="text-center">
-                      <i className="flag-icon flag-icon-in h4 mb-0" title="in" id="in"></i>
+                      <span className='text-muted'>None</span>
                     </td>
                     <td>
-                      <div className="clearfix">
-                        <div className="float-left">
-                          <strong>74%</strong>
-                        </div>
-                        <div className="float-right">
-                          <small className="text-muted">Jun 11, 2015 - Jul 10, 2015</small>
-                        </div>
+                      <div className="text-center">
+                      <Badge className="mr-1" color="primary">Anime</Badge>
+                      <Badge className="mr-1" color="primary">Invest Soc</Badge>
+                      <Badge className="mr-1" color="primary">Math Soc</Badge>
                       </div>
-                      <Progress className="progress-xs" color="warning" value="74" />
-                    </td>
-                    <td className="text-center">
-                      <i className="fa fa-cc-stripe" style={{ fontSize: 24 + 'px' }}></i>
                     </td>
                     <td>
-                      <div className="small text-muted">Last login</div>
-                      <strong>1 hour ago</strong>
+                      <div className='text-center'>
+                      <div className="small text-muted">Last Event</div>
+                      <strong> Math Soc Outing</strong>
+                      </div>
+                    </td>
+                    <td className='mr-0 pr-0'>
+                      <div className="small text-muted"><i className="fa fa-phone mr-1"></i> +65 91802872</div>
+                      <div className="small text-muted"><i className="fa fa-envelope mr-1"></i> YipGum@u.nus.edu.sg</div>
+                    </td>
+                    <td className='pl-0 ml-0 mr-0 pr-0 text-center'>
+                      <div className='mr-0'>
+                      <Button  color='ghost-dark' className='mr-1'><i className="fa fa-pencil"></i></Button>
+                      <Button  color='ghost-dark ' className='mr-1'><i className="fa fa-comments"></i> </Button>
+                      <Button  color='ghost-dark' className='mr-1'><i className="fa fa-trash"></i> </Button>
+                    </div>  
                     </td>
                   </tr>
                   <tr>
@@ -1018,32 +1372,38 @@ class Dashboard extends Component {
                       </div>
                     </td>
                     <td>
-                      <div>Enéas Kwadwo</div>
+                    <div>Enéas Kwadwo</div>
                       <div className="small text-muted">
-                        <span>New</span> | Registered: Jan 1, 2015
+                        <span>Year 2 Computer Science</span> 
                       </div>
                     </td>
                     <td className="text-center">
-                      <i className="flag-icon flag-icon-fr h4 mb-0" title="fr" id="fr"></i>
+                      <span className='text-muted'>None</span>
                     </td>
                     <td>
-                      <div className="clearfix">
-                        <div className="float-left">
-                          <strong>98%</strong>
-                        </div>
-                        <div className="float-right">
-                          <small className="text-muted">Jun 11, 2015 - Jul 10, 2015</small>
-                        </div>
+                      <div className="text-center">
+                      <Badge className="mr-1" color="primary">Anime</Badge>
+                      <Badge className="mr-1" color="primary">Invest Soc</Badge>
+                      <Badge className="mr-1" color="primary">Math Soc</Badge>
                       </div>
-                      <Progress className="progress-xs" color="danger" value="98" />
-                    </td>
-                    <td className="text-center">
-                      <i className="fa fa-paypal" style={{ fontSize: 24 + 'px' }}></i>
                     </td>
                     <td>
-                      <div className="small text-muted">Last login</div>
-                      <strong>Last month</strong>
+                      <div className='text-center'>
+                      <div className="small text-muted">Last Event</div>
+                      <strong> Math Soc Outing</strong>
+                      </div>
                     </td>
+                    <td className='mr-0 pr-0'>
+                      <div className="small text-muted"><i className="fa fa-phone mr-1"></i> +65 91802872</div>
+                      <div className="small text-muted"><i className="fa fa-envelope mr-1"></i> YipGum@u.nus.edu.sg</div>
+                    </td>
+                    <td className='pl-0 ml-0 mr-0 pr-0 text-center'>
+                      <div className='mr-0'>
+                      <Button  color='ghost-dark' className='mr-1'><i className="fa fa-pencil"></i></Button>
+                      <Button  color='ghost-dark ' className='mr-1'><i className="fa fa-comments"></i> </Button>
+                      <Button  color='ghost-dark' className='mr-1'><i className="fa fa-trash"></i> </Button>
+                    </div>  
+                    </td>                  
                   </tr>
                   <tr>
                     <td className="text-center">
@@ -1053,31 +1413,37 @@ class Dashboard extends Component {
                       </div>
                     </td>
                     <td>
-                      <div>Agapetus Tadeáš</div>
+                    <div>Agapetus Tadeáš</div>
                       <div className="small text-muted">
-                        <span>New</span> | Registered: Jan 1, 2015
+                        <span>Year 2 Computer Science</span> 
                       </div>
                     </td>
                     <td className="text-center">
-                      <i className="flag-icon flag-icon-es h4 mb-0" title="es" id="es"></i>
+                      <span className='text-muted'>None</span>
                     </td>
                     <td>
-                      <div className="clearfix">
-                        <div className="float-left">
-                          <strong>22%</strong>
-                        </div>
-                        <div className="float-right">
-                          <small className="text-muted">Jun 11, 2015 - Jul 10, 2015</small>
-                        </div>
+                      <div className="text-center">
+                      <Badge className="mr-1" color="primary">Anime</Badge>
+                      <Badge className="mr-1" color="primary">Invest Soc</Badge>
+                      <Badge className="mr-1" color="primary">Math Soc</Badge>
                       </div>
-                      <Progress className="progress-xs" color="info" value="22" />
-                    </td>
-                    <td className="text-center">
-                      <i className="fa fa-google-wallet" style={{ fontSize: 24 + 'px' }}></i>
                     </td>
                     <td>
-                      <div className="small text-muted">Last login</div>
-                      <strong>Last week</strong>
+                      <div className='text-center'>
+                      <div className="small text-muted">Last Event</div>
+                      <strong> Math Soc Outing</strong>
+                      </div>
+                    </td>
+                    <td className='mr-0 pr-0'>
+                      <div className="small text-muted"><i className="fa fa-phone mr-1"></i> +65 91802872</div>
+                      <div className="small text-muted"><i className="fa fa-envelope mr-1"></i> YipGum@u.nus.edu.sg</div>
+                    </td>
+                    <td className='pl-0 ml-0 mr-0 pr-0 text-center'>
+                      <div className='mr-0'>
+                      <Button  color='ghost-dark' className='mr-1'><i className="fa fa-pencil"></i></Button>
+                      <Button  color='ghost-dark ' className='mr-1'><i className="fa fa-comments"></i> </Button>
+                      <Button  color='ghost-dark' className='mr-1'><i className="fa fa-trash"></i> </Button>
+                    </div>  
                     </td>
                   </tr>
                   <tr>
@@ -1088,31 +1454,37 @@ class Dashboard extends Component {
                       </div>
                     </td>
                     <td>
-                      <div>Friderik Dávid</div>
+                    <div>Friderik Dávid</div>
                       <div className="small text-muted">
-                        <span>New</span> | Registered: Jan 1, 2015
+                        <span>Year 2 Computer Science</span> 
                       </div>
                     </td>
                     <td className="text-center">
-                      <i className="flag-icon flag-icon-pl h4 mb-0" title="pl" id="pl"></i>
+                      <span className='text-muted'>None</span>
                     </td>
                     <td>
-                      <div className="clearfix">
-                        <div className="float-left">
-                          <strong>43%</strong>
-                        </div>
-                        <div className="float-right">
-                          <small className="text-muted">Jun 11, 2015 - Jul 10, 2015</small>
-                        </div>
+                      <div className="text-center">
+                      <Badge className="mr-1" color="primary">Anime</Badge>
+                      <Badge className="mr-1" color="primary">Invest Soc</Badge>
+                      <Badge className="mr-1" color="primary">Math Soc</Badge>
                       </div>
-                      <Progress className="progress-xs" color="success" value="43" />
-                    </td>
-                    <td className="text-center">
-                      <i className="fa fa-cc-amex" style={{ fontSize: 24 + 'px' }}></i>
                     </td>
                     <td>
-                      <div className="small text-muted">Last login</div>
-                      <strong>Yesterday</strong>
+                      <div className='text-center'>
+                      <div className="small text-muted">Last Event</div>
+                      <strong> Math Soc Outing</strong>
+                      </div>
+                    </td>
+                    <td className='mr-0 pr-0'>
+                      <div className="small text-muted"><i className="fa fa-phone mr-1"></i> +65 91802872</div>
+                      <div className="small text-muted"><i className="fa fa-envelope mr-1"></i> YipGum@u.nus.edu.sg</div>
+                    </td>
+                    <td className='pl-0 ml-0 mr-0 pr-0 text-center'>
+                      <div className='mr-0'>
+                      <Button  color='ghost-dark' className='mr-1'><i className="fa fa-pencil"></i></Button>
+                      <Button  color='ghost-dark ' className='mr-1'><i className="fa fa-comments"></i> </Button>
+                      <Button  color='ghost-dark' className='mr-1'><i className="fa fa-trash"></i> </Button>
+                    </div>  
                     </td>
                   </tr>
                   </tbody>

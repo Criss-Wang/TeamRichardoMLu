@@ -1,36 +1,29 @@
 export default {
   items: [
+
     {
       name: 'Dashboard',
       url: '/dashboard',
       icon: 'icon-speedometer',
-      badge: {
-        variant: 'info',
-        text: 'NEW',
-      },
+    },
+    {
+      name: 'Contacts',
+      url:'/contact',
+      icon:'fa fa-user',
+    },
+    {
+      name: 'Groups',
+      url: '/groups',
+      icon: 'fa fa-users'
+    },
+    {
+      name: 'Analysis',
+      url: '/analysis',
+      icon: 'fa fa-bar-chart'
     },
     {
       title: true,
-      name: 'Theme',
-      wrapper: {            // optional wrapper object
-        element: '',        // required valid HTML5 element tag
-        attributes: {}        // optional valid JS object with JS API naming ex: { className: "my-class", style: { fontFamily: "Verdana" }, id: "my-id"}
-      },
-      class: ''             // optional class names space delimited list for title item ex: "text-center"
-    },
-    {
-      name: 'Colors',
-      url: '/theme/colors',
-      icon: 'icon-drop',
-    },
-    {
-      name: 'Typography',
-      url: '/theme/typography',
-      icon: 'icon-pencil',
-    },
-    {
-      title: true,
-      name: 'Components',
+      name: 'Filter',
       wrapper: {
         element: '',
         attributes: {},
@@ -151,11 +144,6 @@ export default {
       ],
     },
     {
-      name: 'Charts',
-      url: '/charts',
-      icon: 'icon-pie-chart',
-    },
-    {
       name: 'Icons',
       url: '/icons',
       icon: 'icon-star',
@@ -255,25 +243,23 @@ export default {
         },
       ],
     },
-    {
+/*     {
       name: 'Disabled',
       url: '/dashboard',
       icon: 'icon-ban',
       attributes: { disabled: true },
-    },
+    }, */
     {
-      name: 'Download CoreUI',
+      name: 'Settings',
       url: 'https://coreui.io/react/',
-      icon: 'icon-cloud-download',
+      icon: 'icon-settings',
       class: 'mt-auto',
-      variant: 'success',
       attributes: { target: '_blank', rel: "noopener" },
     },
     {
-      name: 'Try CoreUI PRO',
+      name: 'Need Help?',
       url: 'https://coreui.io/pro/react/',
-      icon: 'icon-layers',
-      variant: 'danger',
+      icon: 'icon-bulb',
       attributes: { target: '_blank', rel: "noopener" },
     },
   ],

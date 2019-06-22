@@ -85,7 +85,7 @@ class Modals extends Component {
               </CardHeader>
               <CardBody>
                 <Button onClick={this.toggle} className="mr-1">Launch demo modal</Button>
-                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className} id='modalCenter'>
                   <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
                   <ModalBody>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore

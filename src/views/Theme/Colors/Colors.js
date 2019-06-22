@@ -54,7 +54,6 @@ class ThemeColor extends Component {
     return (
       <Col xl="2" md="4" sm="6" xs="12" className="mb-4">
         <div className={classes} style={{paddingTop: '75%'}}></div>
-        {children}
         <ThemeView/>
       </Col>
     )
