@@ -7,7 +7,9 @@ import {
 } from 'reactstrap';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
-import Pagecontainer from './Pagecomponent/Pagecontainer';
+import Pagecomponent from './Pagecomponent/Pagecomponent';
+import data from './Pagecomponent/tsconfig.json';
+import Axios from 'axios';
 
 
 const brandPrimary = getStyle('--primary')
@@ -441,13 +443,46 @@ class Contact extends Component {
   constructor(props) {
     super(props);
 
-    this.toggledrop = this.toggledrop.bind(this);
-    this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
-
     this.state = {
       dropdownOpen: new Array(2).fill(false),
       radioSelected: 2,
+      dataList: [],
+      pageConfig: {
+        totalPage: data.length //总页码
+      },
     };
+
+    
+    this.toggledrop = this.toggledrop.bind(this);
+    this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
+    this.getCurrentPage = this.getCurrentPage.bind(this);
+//    this.getData = this.getData.bind(this);
+  }
+
+ /*  getData(){
+    Axios.get('http://jsonplaceholder.typicode.com/posts')
+        .then(res =>{
+            console.log(res.data.length);
+            this.setState(
+              { data: res.data,
+                pageConfig: {
+                    totalPage: res.data.length, 
+                },
+            })
+            console.log(this.pageConfig[totalPage])
+        })
+        .catch(err =>{
+            console.log(err);
+        })
+};
+  componentDidMount(){
+    this.getData();
+  } */
+
+  getCurrentPage(currentPage) {
+      this.setState({
+          dataList: data[currentPage-1].name,
+      })
   }
 
   toggledrop(i) {
@@ -760,11 +795,182 @@ class Contact extends Component {
                     </div>  
                     </td>
                   </tr>
+                  <tr>
+                    <td className="text-center">
+                      <div className="avatar">
+                        <img src={'assets/img/avatars/5.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                        <span className="avatar-status badge-success"></span>
+                      </div>
+                    </td>
+                    <td>
+                    <div>Agapetus Tadeáš</div>
+                      <div className="small text-muted">
+                        <span>Year 2 Computer Science</span> 
+                      </div>
+                    </td>
+                    <td className="text-center">
+                      <span className='text-muted'>None</span>
+                    </td>
+                    <td>
+                      <div className="text-center">
+                      <Badge className="mr-1" color="primary">Anime</Badge>
+                      <Badge className="mr-1" color="primary">Invest Soc</Badge>
+                      <Badge className="mr-1" color="primary">Math Soc</Badge>
+                      </div>
+                    </td>
+                    <td>
+                      <div className='text-center'>
+                      <div className="small text-muted">Last Event</div>
+                      <strong> Math Soc Outing</strong>
+                      </div>
+                    </td>
+                    <td className='mr-0 pr-0'>
+                      <div className="small text-muted"><i className="fa fa-phone mr-1"></i> +65 91802872</div>
+                      <div className="small text-muted"><i className="fa fa-envelope mr-1"></i> YipGum@u.nus.edu.sg</div>
+                    </td>
+                    <td className='pl-0 ml-0 mr-0 pr-0 text-center'>
+                      <div className='mr-0'>
+                      <Button  color='ghost-dark' className='mr-1'><i className="fa fa-pencil"></i></Button>
+                      <Button  color='ghost-dark ' className='mr-1'><i className="fa fa-comments"></i> </Button>
+                      <Button  color='ghost-dark' className='mr-1'><i className="fa fa-trash"></i> </Button>
+                    </div>  
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-center">
+                      <div className="avatar">
+                        <img src={'assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                        <span className="avatar-status badge-danger"></span>
+                      </div>
+                    </td>
+                    <td>
+                    <div>Friderik Dávid</div>
+                      <div className="small text-muted">
+                        <span>Year 2 Computer Science</span> 
+                      </div>
+                    </td>
+                    <td className="text-center">
+                      <span className='text-muted'>None</span>
+                    </td>
+                    <td>
+                      <div className="text-center">
+                      <Badge className="mr-1" color="primary">Anime</Badge>
+                      <Badge className="mr-1" color="primary">Invest Soc</Badge>
+                      <Badge className="mr-1" color="primary">Math Soc</Badge>
+                      </div>
+                    </td>
+                    <td>
+                      <div className='text-center'>
+                      <div className="small text-muted">Last Event</div>
+                      <strong> Math Soc Outing</strong>
+                      </div>
+                    </td>
+                    <td className='mr-0 pr-0'>
+                      <div className="small text-muted"><i className="fa fa-phone mr-1"></i> +65 91802872</div>
+                      <div className="small text-muted"><i className="fa fa-envelope mr-1"></i> YipGum@u.nus.edu.sg</div>
+                    </td>
+                    <td className='pl-0 ml-0 mr-0 pr-0 text-center'>
+                      <div className='mr-0'>
+                      <Button  color='ghost-dark' className='mr-1'><i className="fa fa-pencil"></i></Button>
+                      <Button  color='ghost-dark ' className='mr-1'><i className="fa fa-comments"></i> </Button>
+                      <Button  color='ghost-dark' className='mr-1'><i className="fa fa-trash"></i> </Button>
+                    </div>  
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-center">
+                      <div className="avatar">
+                        <img src={'assets/img/avatars/5.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                        <span className="avatar-status badge-success"></span>
+                      </div>
+                    </td>
+                    <td>
+                    <div>Agapetus Tadeáš</div>
+                      <div className="small text-muted">
+                        <span>Year 2 Computer Science</span> 
+                      </div>
+                    </td>
+                    <td className="text-center">
+                      <span className='text-muted'>None</span>
+                    </td>
+                    <td>
+                      <div className="text-center">
+                      <Badge className="mr-1" color="primary">Anime</Badge>
+                      <Badge className="mr-1" color="primary">Invest Soc</Badge>
+                      <Badge className="mr-1" color="primary">Math Soc</Badge>
+                      </div>
+                    </td>
+                    <td>
+                      <div className='text-center'>
+                      <div className="small text-muted">Last Event</div>
+                      <strong> Math Soc Outing</strong>
+                      </div>
+                    </td>
+                    <td className='mr-0 pr-0'>
+                      <div className="small text-muted"><i className="fa fa-phone mr-1"></i> +65 91802872</div>
+                      <div className="small text-muted"><i className="fa fa-envelope mr-1"></i> YipGum@u.nus.edu.sg</div>
+                    </td>
+                    <td className='pl-0 ml-0 mr-0 pr-0 text-center'>
+                      <div className='mr-0'>
+                      <Button  color='ghost-dark' className='mr-1'><i className="fa fa-pencil"></i></Button>
+                      <Button  color='ghost-dark ' className='mr-1'><i className="fa fa-comments"></i> </Button>
+                      <Button  color='ghost-dark' className='mr-1'><i className="fa fa-trash"></i> </Button>
+                    </div>  
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-center">
+                      <div className="avatar">
+                        <img src={'assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                        <span className="avatar-status badge-danger"></span>
+                      </div>
+                    </td>
+                    <td>
+                    <div>Friderik Dávid</div>
+                      <div className="small text-muted">
+                        <span>Year 2 Computer Science</span> 
+                      </div>
+                    </td>
+                    <td className="text-center">
+                      <span className='text-muted'>None</span>
+                    </td>
+                    <td>
+                      <div className="text-center">
+                      <Badge className="mr-1" color="primary">Anime</Badge>
+                      <Badge className="mr-1" color="primary">Invest Soc</Badge>
+                      <Badge className="mr-1" color="primary">Math Soc</Badge>
+                      </div>
+                    </td>
+                    <td>
+                      <div className='text-center'>
+                      <div className="small text-muted">Last Event</div>
+                      <strong> Math Soc Outing</strong>
+                      </div>
+                    </td>
+                    <td className='mr-0 pr-0'>
+                      <div className="small text-muted"><i className="fa fa-phone mr-1"></i> +65 91802872</div>
+                      <div className="small text-muted"><i className="fa fa-envelope mr-1"></i> YipGum@u.nus.edu.sg</div>
+                    </td>
+                    <td className='pl-0 ml-0 mr-0 pr-0 text-center'>
+                      <div className='mr-0'>
+                      <Button  color='ghost-dark' className='mr-1'><i className="fa fa-pencil"></i></Button>
+                      <Button  color='ghost-dark ' className='mr-1'><i className="fa fa-comments"></i> </Button>
+                      <Button  color='ghost-dark' className='mr-1'><i className="fa fa-trash"></i> </Button>
+                    </div>  
+                    </td>
+                  </tr>
+ 
                   </tbody>
                 </Table>
-                <div>
-                  {Pagecontainer}
-                </div>
+                <Row className='mt-4'>
+                  <Col md='3' className='pagi-header pl-4'>
+                   <strong>1-10 out of 57</strong>
+                  </Col>
+                  <Col md='9' className='text-right mr-0 '>
+                  <Pagecomponent pageConfig={this.state.pageConfig}
+                               pageCallbackFn={this.getCurrentPage}/>
+                  </Col>
+                </Row>                
               </CardBody>
             </Card>
           </Col>

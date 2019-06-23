@@ -485,9 +485,11 @@ class Dashboard extends Component {
   render() {
     return (
       <div className="animated fadeIn">
+        <h1 className="h3 mb-3 text-gray-800">Dashboard</h1>
          <Row>
           <Col xs="12" sm="6" md="4">
             <Fade timeout={this.state.timeout} in={this.state.fadeIn}>
+              
               <Card className='dash-card card-accent-info shadow-sm'>
                 <CardHeader>
                   <span>Your Info Card</span>
@@ -688,11 +690,7 @@ class Dashboard extends Component {
                             <Col xs="8">
                               <FormGroup>
                                 <Label htmlFor="ccyear"><i className="fa fa-user"></i> Account</Label>
-                                <Input type="select" name="ccyear" id="ccyear">
-                                  <option>2017</option>
-                                  <option>2018</option>
-                                  <option>2019</option>
-                                </Input>
+                                <Input type="text" id="Account" name="text-input" placeholder="required" />
                               </FormGroup>
                             </Col>
                           </Row>

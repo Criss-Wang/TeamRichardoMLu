@@ -29,7 +29,7 @@ export default {
         attributes: {},
       },
     },
-    {
+    /* {
       name: 'Base',
       url: '/base',
       icon: 'icon-puzzle',
@@ -242,7 +242,7 @@ export default {
           icon: 'icon-star',
         },
       ],
-    },
+    }, */
 /*     {
       name: 'Disabled',
       url: '/dashboard',

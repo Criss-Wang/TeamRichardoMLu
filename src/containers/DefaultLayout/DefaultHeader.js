@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 import { AppAsideToggler, AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
 import logo from '../../assets/img/brand/logo.svg'
 import sygnet from '../../assets/img/brand/sygnet.svg'
+import axios from 'axios';
+import ImageUploader from 'react-images-upload';
 
 const propTypes = {
   children: PropTypes.node,
@@ -17,14 +19,23 @@ const defaultProps = {};
 class DefaultHeader extends Component {
   constructor(props) {
     super(props);
-
+//    this.fileSelectedHandler = this.fileSelectedHandler.bind(this);
     this.togglepopover = this.togglepopover.bind(this);
     this.togglemodal = this.togglemodal.bind(this);
+    this.onDrop = this.onDrop.bind(this);
     this.state = {
       popoverOpen: false,
       modal: false,
+      selectedFile:null,
+      pictures: [],
     };
   }
+
+  onDrop(picture) {
+    this.setState({
+        pictures: this.state.pictures.concat(picture)
+    })
+  };
 
   togglepopover() {
     this.setState({
@@ -37,6 +48,21 @@ class DefaultHeader extends Component {
       modal: !this.state.modal,
     });
   }
+
+/*   fileSelectedHandler = event => {
+      this.setState({
+        selectedFile: event.target.files[0]
+      })
+  }
+
+  fileUploadHandler = ()=>{
+    const fd = new FormData();
+    fd.append('image', this.state.selectedFile, this.state.selectedFile.name)
+    axios.post('')
+         .then(res =>{
+
+         })
+  } */
   
   render() {
 
@@ -109,7 +135,7 @@ class DefaultHeader extends Component {
                       </Col>
                       <Col md='3' className='text-center mt-3'>
                         <img src={'../../assets/img/avatars/6.jpg'} className="img-avatar mb-3" alt="admin@bootstrapmaster.com" />
-                        <a href='#'> Upload Photo</a>
+                        <Input type='file' className='inputhere'/>
                       </Col>
                     </Row>
 
@@ -126,10 +152,10 @@ class DefaultHeader extends Component {
                       </Col>
                       <Col md='9'>
                        <FormGroup row>
-                          <Col md="4" className='mt-2'>
-                            <Label htmlFor="date-input"><i className="fa fa-birthday-cake"></i> Birthday </Label>
+                          <Col md="4" className='mt-2 mr-0 pr-0'>
+                            <Label htmlFor="date-input"><i className="fa fa-birthday-cake "></i> Birthday </Label>
                           </Col>
-                          <Col xs="12" md="8">
+                          <Col xs="12" md="8" className='pl-0 ml-0'>
                             <Input type="date" id="date-input" name="date-input" placeholder="date" />
                           </Col>
                        </FormGroup>
@@ -264,11 +290,7 @@ class DefaultHeader extends Component {
                     <Col xs="8">
                       <FormGroup>
                         <Label htmlFor="ccyear"><i className="fa fa-user"></i> Account</Label>
-                        <Input type="select" name="ccyear" id="ccyear">
-                          <option>2017</option>
-                          <option>2018</option>
-                          <option>2019</option>
-                        </Input>
+                        <Input type="text" id="Account" name="text-input" placeholder="required" />
                       </FormGroup>
                     </Col>
                   </Row>
@@ -346,8 +368,8 @@ class DefaultHeader extends Component {
             </NavLink>
           </NavItem>
           <AppHeaderDropdown direction="down">
-            <DropdownToggle nav>
-              <img src={'../../assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+            <DropdownToggle nav className='mr-3'>
+              <img src={'../../assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> George Lucas
             </DropdownToggle>
             <DropdownMenu right style={{ right: 'auto' }}>
               <DropdownItem header tag="div" className="text-center"><strong>Account</strong></DropdownItem>
@@ -359,7 +381,7 @@ class DefaultHeader extends Component {
             </DropdownMenu>
           </AppHeaderDropdown>
         </Nav>
-        <AppAsideToggler className="d-md-down-none" />
+        {/* <AppAsideToggler className="d-md-down-none" /> */}
         {/*<AppAsideToggler className="d-lg-none" mobile />*/}
       </React.Fragment>
     );

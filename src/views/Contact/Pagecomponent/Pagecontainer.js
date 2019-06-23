@@ -12,7 +12,7 @@ class Pagecontainer extends Component {
             pageConfig: {
                 totalPage: 0 //总页码
             },
-            data:[],
+            data: [],
         }
         this.getCurrentPage = this.getCurrentPage.bind(this)
         this.getData=this.getData.bind(this)

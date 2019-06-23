@@ -5,9 +5,9 @@ class Pagecomponent extends Component {
         super(props)
         this.state = {
             currentPage: 1, //当前页码
-            groupCount: 5, //页码分组，显示7个页码，其余用省略号显示
+            groupCount: 4, //页码分组，显示7个页码，其余用省略号显示
             startPage: 1,  //分组开始页码
-            totalPage:1 //总页数
+            totalPage:17 //总页数
         }
         this.createPage = this.createPage.bind(this)
     }
@@ -26,9 +26,9 @@ class Pagecomponent extends Component {
         //上一页
         pages.push(<li className={currentPage === 1 ? "nomore" : null} onClick={this.prePageHandeler.bind(this)}
                        key={0}>
-            上一页</li>)
+            Prev</li>)
 
-        if (totalPage <= 7) {
+        if (totalPage <= 5) {
             /*总页码小于等于7时，全部显示出来*/
             for (let i = 1; i <= totalPage; i++) {
                 pages.push(<li key={i} onClick={this.pageClick.bind(this, i)}
@@ -49,7 +49,7 @@ class Pagecomponent extends Component {
             }
             //前面省略号(当当前页码比分组的页码大时显示省略号)
             if (currentPage >= groupCount) {
-                pages.push(<li className="" key={-1}>···</li>)
+                pages.push(<li className="ign" key={-1}>···</li>)
             }
             //非第一页和最后一页显示
             for (let i = startPage; i < pageLength; i++) {
@@ -60,7 +60,7 @@ class Pagecomponent extends Component {
             }
             //后面省略号
             if (totalPage - startPage >= groupCount + 1) {
-                pages.push(<li className="" key={-2}>···</li>)
+                pages.push(<li className="ign" key={-2}>···</li>)
             }
             //最后一页
             pages.push(<li className={currentPage === totalPage ? "activePage" : null} key={totalPage}
@@ -69,7 +69,7 @@ class Pagecomponent extends Component {
         //下一页
         pages.push(<li className={currentPage === totalPage ? "nomore" : null}
                        onClick={this.nextPageHandeler.bind(this)}
-                       key={totalPage + 1}>下一页</li>)
+                       key={totalPage + 1}>Next</li>)
         return pages;
 
     }
