@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { HashRouter, Route, Switch, Router } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 import './App.scss';
 
@@ -13,11 +13,20 @@ const Login = React.lazy(() => import('./views/Pages/Login'));
 const Register = React.lazy(() => import('./views/Pages/Register'));
 const Page404 = React.lazy(() => import('./views/Pages/Page404'));
 const Page500 = React.lazy(() => import('./views/Pages/Page500'));
+//const Landing = React.lazy(() => import('./views/Landing/Landing'));
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      Login: true,
+    };
+  }
  
   render() {
     return (
+      <div>
       <HashRouter>
           <React.Suspense fallback={loading()}>
             <Switch>
@@ -29,6 +38,7 @@ class App extends Component {
             </Switch>
           </React.Suspense>
       </HashRouter>
+      </div>
     );
   }
 }

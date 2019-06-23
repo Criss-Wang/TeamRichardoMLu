@@ -9,6 +9,33 @@
 
 // If you want to add something do it here
 @import "custom";
+
+//Global setting
+.btn:active,
+.btn:focus,
+.btn:hover,
+.btn:visited{
+  outline: none !important;
+  box-shadow: none;
+  text-decoration:none;
+}
+
+//InfoSheet Modal
+.add-btn{
+    border-width: 2px;
+    font-weight: 550;
+}
+.add-btn:hover,
+.add-btn:focus,
+.add-btn:active{
+    color: white;
+}
+
+.modal-title{
+    font-size: 20px;
+    padding-right: 5px;
+}
+
 #modalCenter{
     top:30%;
     transform:translateY(-30%) !important;
@@ -19,6 +46,36 @@
     margin-top: 3px;
 }
 
+//Default Header
+.nav-link #reminder{
+    color: #c8ced3;
+}
+
+#reminder:hover
+{
+    color: #fff !important;
+}
+
+#reminder2{
+    color: #c8ced3 !important;
+}
+
+#reminder2:hover
+{
+    color: #fff !important;
+}
+
+img.user-icon-header{
+    border: 2px solid white !important;
+
+}
+
+.frameheader{
+    background-color: rgba(47, 53, 58,0.9);
+    border:none;
+}
+
+//InfoSheet2
 #modalbtn:hover{
     background: transparent;
 }
@@ -26,6 +83,7 @@
     border:none;
 }
 
+//DashBoard
 .dash-card{
     max-height: 466px;
 }
@@ -38,6 +96,11 @@
     padding-top: 5px;
     padding-bottom: 0;
     margin-bottom: 0;
+}
+
+.user-tag{
+    font-size: 1em;
+    margin-right: 0.6em;
 }
 
 .break1{
@@ -54,20 +117,6 @@
     margin-top: 0;
     margin-bottom: 2px;
 }
-.user-tag{
-    font-size: 1em;
-    margin-right: 0.6em;
-}
-
-.add-btn{
-    border-width: 2px;
-    font-weight: 550;
-}
-.add-btn:hover,
-.add-btn:focus,
-.add-btn:active{
-    color: white;
-}
 
 .male{
     color: #63c2de;
@@ -76,13 +125,7 @@
     color: #f86c6b;
 }
 
-.btn:active,
-.btn:focus,
-.btn:hover{
-  outline: none !important;
-  box-shadow: none;
-}
-
+//Contact Page
 .pagi-header{
     padding-top: 0.25em;
 }
@@ -96,12 +139,8 @@
 }
 .page-container {
     zoom: 1;
-    margin-left: 680px;
+    margin-left: 700px;
     padding-right: 0;
-}
-
-.amount{
-    font-size: 0.75rem;
 }
 
 .page-container li {
@@ -111,15 +150,16 @@
     cursor: pointer;
     border: 1px solid #ccc;
     border-radius: 20%;
-    height: 28px;
-    width: 28px;
-    line-height: 28px;
-    margin-right: 5px;
+    height: 26px;
+    width: 26px;
+    line-height: 26px;
+    margin-right: 4px;
     text-align: center;
     font-size: 0.8rem;
     color: #20a8d8;
     background: #fff;
     border-color: #20a8d8;
+    font-weight: 560;
 
 }
 
@@ -141,8 +181,8 @@
 }
 
 .page-container li.nomore, .page-container li.nomore:hover{
-    color: rgb(128, 128, 128) !important;
-    border-color: rgb(128, 128, 128) !important;
+    color: rgb(182, 182, 182) !important;
+    border-color: rgb(182, 182, 182) !important;
     background:  transparent !important;
     cursor: not-allowed !important;
 }
@@ -160,10 +200,18 @@
     width: 20px !important;
 }
 
-.group{
-    height:17rem;
+.delete#modalCenter{
+    border: none;
 }
+.modalbody{
+    border:none;
+}
+.modalheader{
+    background: #000;
+    color: white;
 
+}
+//Group
 .people_ex{
     font-size: 0.75rem;
 }
@@ -171,17 +219,15 @@
     font-size: 12px;
     border-left: 1px double #20a8d8;
 }
-  
-  input[type=file] {
-    font-size: 20px;
-    left: 0;
-    top: 0;
-    max-width: 10px;
-    opacity: 100;
-  }
 
-  .inputhere{
-      width:5px;
-  }
+.group{
+    height:17rem;
+}
+
+.amount{
+    font-size: 0.75rem;
+}
+
+
 // ie fixes
 @import "ie-fix";
