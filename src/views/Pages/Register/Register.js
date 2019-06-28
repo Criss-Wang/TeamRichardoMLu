@@ -4,11 +4,11 @@ import { Button, Card, CardBody, CardFooter, Col, Container, Form, Input, InputG
 class Register extends Component {
   render() {
     return (
-      <div className="app flex-row align-items-center">
+      <div className="app flex-row align-items-center register-frame">
         <Container>
           <Row className="justify-content-center">
             <Col md="9" lg="7" xl="6">
-              <Card className="mx-4">
+              <Card className="mx-4 shadow">
                 <CardBody className="p-4">
                   <Form>
                     <h1>Register</h1>
@@ -49,10 +49,10 @@ class Register extends Component {
                 <CardFooter className="p-4">
                   <Row>
                     <Col xs="12" sm="6">
-                      <Button className="btn-facebook mb-1" block><span>facebook</span></Button>
+                      <Button className="btn-facebook mb-1" block><span><i className='fa fa-facebook mr-2'></i> facebook</span></Button>
                     </Col>
                     <Col xs="12" sm="6">
-                      <Button className="btn-twitter mb-1" block><span>twitter</span></Button>
+                      <Button className="btn-twitter mb-1" block><span><i className='fa fa-user mr-2'></i> NUS Login</span></Button>
                     </Col>
                   </Row>
                 </CardFooter>

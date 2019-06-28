@@ -19,8 +19,8 @@ export class InfoSheet extends Component {
   }
     render() {
         return (
-          <div>
-            <Button onClick={this.togglemodal} outline className='card-header-action' id='modalbtn'><i className="fa fa-pencil"></i></Button>
+          <span>
+            <Button  color='ghost-dark' className='mr-1' onClick={this.togglemodal}><i className="fa fa-pencil"></i></Button>
             <Modal isOpen={this.state.modal} toggle={this.togglemodal} className={'modal-lg modal-primary '+ this.props.className} id='modalCenter'>
               <ModalHeader toggle={this.togglemodal} className='pt-2 mt-0 pb-2 mb-0'>
                 <strong className='modal-title'>Friend Info Sheet</strong>
@@ -255,11 +255,11 @@ export class InfoSheet extends Component {
                 
               </ModalBody>
               <ModalFooter>
-                <Button color="primary" onClick={this.togglemodal}>Submit</Button>{' '}
+                <Button color="primary" onClick={this.togglemodal}>Add</Button>{' '}
                 <Button color="secondary" onClick={this.togglemodal}>Cancel</Button>
               </ModalFooter>
             </Modal>
-          </div>
+          </span>
         )
     }
 }

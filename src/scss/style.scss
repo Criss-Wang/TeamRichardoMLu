@@ -75,6 +75,11 @@ img.user-icon-header{
     border:none;
 }
 
+// Default Footer
+.UrlLink2{
+    color: #000;
+}
+
 //InfoSheet2
 #modalbtn:hover{
     background: transparent;
@@ -139,13 +144,11 @@ img.user-icon-header{
 }
 .page-container {
     zoom: 1;
-    margin-left: 700px;
-    padding-right: 0;
 }
 
 .page-container li {
     list-style: none;
-    float: left;
+    float: right;
     padding: 0px 0px;
     cursor: pointer;
     border: 1px solid #ccc;
@@ -164,13 +167,14 @@ img.user-icon-header{
 }
 
 .page-container li:last-child {
-    margin-right: 0px;
-    width:35px;
+    margin-right: 7px;
+    width:26px;
 }
 
 .page-container li:first-child {
-    margin-left: 0px;
-    width: 35px;
+    margin-left: 3px;
+    margin-right: 1.8rem;
+    width: 26px;
 }
 
 .activePage, 
@@ -211,6 +215,10 @@ img.user-icon-header{
     color: white;
 
 }
+.export, .export.hover{
+    color: white !important;
+    text-decoration: none !important;
+}
 //Group
 .people_ex{
     font-size: 0.75rem;
@@ -227,7 +235,89 @@ img.user-icon-header{
 .amount{
     font-size: 0.75rem;
 }
+.MemberList{
+    height: 12rem !important;
+}
+.event_date{
+    float: right;
+}
+Button.add_item_btn{
+    background: transparent !important;
+    border: none;
+    padding-top: 1px;
+}
+.event_label{
+    padding-top: 2px;
+}
+.add_member{
+    margin-left: 1.4rem;
+    padding-right: 0.9rem;
+}
+Button.nomore, Button.nomore:hover{
+    color: rgb(182, 182, 182) !important;
+    border-color: rgb(182, 182, 182) !important;
+    background:  transparent !important;
+    cursor: not-allowed !important;
+}
 
+//Landing Page
 
+.UrlLink{
+    color: white !important;
+    font-size: 1.2em
+}
+
+.landing-app-body{
+    background-image: url('./img/bg.png');
+    background-size: cover;
+}
+
+.caption{
+    position: absolute;
+    top:38%;
+    left:13%;
+    z-index:1;
+    color:white;
+  }
+    
+.caption h1{
+    font-size: 3.8rem;
+    font-weight: 700;
+    letter-spacing: .3rem;
+    text-shadow: .1rem .1rem .8rem black;
+    padding-bottom: 2rem;
+    text-transform: uppercase;
+}
+.caption h3{
+    text-shadow: .1rem .1rem .8rem black;
+    letter-spacing: .15rem;
+}
+
+.Landingf{
+    border:none;
+    background-color: transparent;
+}
+
+.footertext{
+    color: white !important;
+}
+
+.footertext2{
+    color: white !important;
+    text-shadow: .1rem .1rem .8rem black;
+}
+
+.start-btn{
+    border-color: white;
+    border-width: 0.15rem;
+    color: white;
+}
+
+//Login page
+
+.register-frame{
+    background-image: url('./img/bg.png');
+    background-size: cover;
+}
 // ie fixes
 @import "ie-fix";

@@ -21,7 +21,7 @@ class DefaultLayout extends Component {
 
   signOut(e) {
     e.preventDefault()
-    this.props.history.push('/Login')
+    this.props.history.push('/Landing')
   }
 
   render() {

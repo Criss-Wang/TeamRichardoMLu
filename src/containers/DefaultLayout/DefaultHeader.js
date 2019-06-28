@@ -4,7 +4,6 @@ import { Badge, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem,
          Button, Input, InputGroup, InputGroupAddon, InputGroupText, Popover, 
          PopoverBody, PopoverHeader, ListGroup, ListGroupItem,} from 'reactstrap';
 import PropTypes from 'prop-types';
-
 import { AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
 import logo from '../../assets/img/brand/Brand.png'
 import sygnet from '../../assets/img/brand/Brand2.png'
@@ -23,7 +22,7 @@ class DefaultHeader extends Component {
     this.onDrop = this.onDrop.bind(this);
     this.state = {
       popoverOpen: false,
-      selectedFile:null,
+      selectedFile: null,
       pictures: [],
     };
   }
@@ -74,7 +73,7 @@ onDrop(picture) {
         <Nav className="ml-auto" navbar>
           {/* Add Contact Modal */}
           <NavItem>
-            <Test/>
+            <Test />
           </NavItem>
           <NavItem className="d-md-down-none">
             <NavLink to="#" className="nav-link mt-1" onClick={this.togglepopover} id="Reminder" >

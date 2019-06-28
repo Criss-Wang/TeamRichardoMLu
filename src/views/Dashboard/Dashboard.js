@@ -4,9 +4,6 @@ import {
 } from 'reactstrap';
 import Fill1 from './InfoSheet1';
 import Fill2 from './InfoSheet2';
-//import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-//import { Bar, Line } from 'react-chartjs-2';
-//import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities'
 
 
 class Dashboard extends Component {
@@ -44,7 +41,7 @@ class Dashboard extends Component {
                   <div className="card-header-actions">
                     <Fill2/>
                   </div>
-                </CardHeader>
+                </CardHeader> 
                 <CardBody className='text-center'>
                   <img src={'assets/img/avatars/4.jpg'}  className="rounded-circle w-50 pb-2" id='user-icon' alt="admin@bootstrapmaster.com" />
                   <h4 className='pb-0 mb-0'><strong className='Username'>Araon Menendez </strong><i className='fa fa-mars male'></i><i className='fa fa-venus female'></i></h4>
@@ -491,7 +488,7 @@ class Dashboard extends Component {
                       <Button  color='ghost-dark' className='mr-1'><i className="fa fa-pencil"></i></Button>
                       <Button  color='ghost-dark ' className='mr-1'><i className="fa fa-comments"></i> </Button>
                       <Button  color='ghost-dark' className='mr-1'><i className="fa fa-trash"></i> </Button>
-                    </div>  
+                      </div>  
                     </td>
                   </tr>
                   </tbody>
