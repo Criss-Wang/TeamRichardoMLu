@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Badge, Button, Input, Modal, ModalBody, 
           ModalFooter, ModalHeader, Col, Row, Form, FormGroup, 
-          Label,ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText,} from 'reactstrap';
+          Label,ListGroup, ListGroupItem, } from 'reactstrap';
 import UserData from './tsconfig.json';
 import Select from 'react-select';
 

@@ -1,11 +1,7 @@
 import React, { Component } from 'react'
-import { Container, NavItem, InputGroup, InputGroupAddon, InputGroupText, Input, Nav, Button,  } from 'reactstrap';
+import { Container, NavItem, Nav, Button,  } from 'reactstrap';
 import Icon from './Brand.png';
-import bg from './bg.png';
-import {
-    AppFooter,AppHeader, AppNavbarBrand, AppSidebarToggler,
-    AppBreadcrumb2 as AppBreadcrumb,
-    AppSidebarNav2 as AppSidebarNav,} from '@coreui/react';
+import { AppHeader, AppNavbarBrand, AppSidebarToggler,} from '@coreui/react';
 
 
 export class Landing extends Component {
@@ -57,7 +53,7 @@ export class Landing extends Component {
                 </main>
                 <div className='mt-auto Landingf'>
                     
-                    <span className="ml-auto footertext mr-3 mb-3">Powered by <a href="" disabled>CoreUI</a></span>
+                    <span className="ml-auto footertext mr-3 mb-3">Powered by <a href="https://coreui.com" disabled>CoreUI</a></span>
                 </div>
                 </div>
 

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   Badge,Button,Card,CardBody, CardHeader,Col,Row,Table, Fade, ListGroupItem, ListGroup,
 } from 'reactstrap';
-import Fill1 from './InfoSheet1';
 import Fill2 from './InfoSheet2';
 
 

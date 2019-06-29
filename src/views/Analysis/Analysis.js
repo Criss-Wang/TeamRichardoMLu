@@ -1,4 +1,4 @@
-import React, { Component, lazy, Suspense } from 'react';
+/* import React, { Component, lazy, Suspense } from 'react';
 import { Bar, Line } from 'react-chartjs-2';
 import {
   Badge,
@@ -752,7 +752,6 @@ class Analysis extends Component {
                 </Table>
               </CardBody>
             </Card>
-          </Col>
         </Row>
       </div>
     );
@@ -760,3 +759,4 @@ class Analysis extends Component {
 }
 
 export default Analysis;
+ */

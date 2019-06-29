@@ -1,6 +1,6 @@
 import React, { Component, } from 'react';
 import {
-  Badge,Button,Card,CardBody,
+  Badge,Card,CardBody,
   CardHeader,Col,Row,Fade, 
 } from 'reactstrap';
 import Fill1 from './InfoSheet1';

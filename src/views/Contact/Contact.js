@@ -1,8 +1,8 @@
-import React, { Component, lazy, Suspense } from 'react';
+import React, { Component } from 'react';
 import {
   Badge,Button,ButtonDropdown, Card,CardBody,
   CardHeader, Col, DropdownItem, DropdownMenu,
-  DropdownToggle, Row,Table, Modal, ModalHeader, ModalBody, Fade,
+  DropdownToggle, Row,Table, Fade,
 } from 'reactstrap';
 import Pagecomponent from './Pagecomponent/Paginate';
 import UserData from './Pagecomponent/tsconfig.json';
@@ -90,7 +90,7 @@ class Contact extends Component {
     let infoDisplay = this.state.infos.slice(indexOfFirstItem, indexOfLastItem); 
 
     return infoDisplay.map((info, index) => {
-       const { id, name, Major_Or_Title, YOS, Group, Tags, 
+       const { id, name, Major_Or_Title, Group, Tags, 
         Recent_Event, Event_Date, Phone, Email, Social_Account} = info //destructuring
        return (
         <tr key={id}>

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Badge, Button, Input, Modal, ModalBody, 
-          ModalFooter, ModalHeader, Col, Row, Form, FormGroup, Label} from 'reactstrap';
+import {  Button, Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
 
 export class InfoSheet extends Component {
   constructor(props) {
