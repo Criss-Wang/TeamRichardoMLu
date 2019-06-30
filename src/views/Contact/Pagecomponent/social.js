@@ -11,7 +11,8 @@ export class InfoSheet extends Component {
         twitter: this.props.twitter,
     };
   }
-  
+
+  // toggle social contact
   toggleSocial() {
     this.setState({
       social: !this.state.social,

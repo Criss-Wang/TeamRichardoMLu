@@ -4,16 +4,18 @@ class Pagecomponent extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            currentPage: 1, //当前页码
-            groupCount: 4, //页码分组，显示7个页码，其余用省略号显示
-            startPage: 1,  //分组开始页码
-            totalPage:10, //总页数
+            currentPage: 1, 
+            groupCount: 4, 
+            startPage: 1,  
+            totalPage:10,
             itemsPerpage:10, 
             totalItem: 500,
+            //random variable assignment for initialization
         }
         this.createNav = this.createNav.bind(this);
     }
 
+    // set the value to those passed from parent component
     componentDidMount() {
         this.setState({
             totalItem: this.props.totalItem,
@@ -21,36 +23,37 @@ class Pagecomponent extends Component {
             itemsPerpage : this.props.itemsPerpage,
             totalPage: this.props.totalPage
         })
-        //this.props.paginate(this.state.currentPage);
     }
 
+    // Create the pagination display
     createNav() {
-        //const {totalPage} = this.props.pageConfig;
         const {currentPage, groupCount, totalPage} = this.state;
         var {startPage} = this.state;
         let pages = []
-        //下一页
+
+        //Next page button
         pages.push(<li className={currentPage === totalPage ? "nomore" : null}
                        onClick={this.nextPageHandeler.bind(this)}
                        key={totalPage + 1}><i className='fa fa-chevron-right'></i></li>)
 
         if (totalPage <= 6) {
-            /*总页码小于等于6时，全部显示出来*/
+            /*Display all if totalpage <=6 */
             for (let i = totalPage; i >= 1; i--) {
                 pages.push(<li key={i} onClick={this.pageClick.bind(this, i)}
                                className={currentPage === i ? "activePage" : null}>{i}</li>)
             }
         } else {
-            /*总页码大于6时，部分显示*/
+            /*Display partial if totalpage <=6*/
 
-            //最后一页
+            //Last Page button
             pages.push(<li className={currentPage === totalPage ? "activePage" : null} key={totalPage}
                            onClick={this.pageClick.bind(this, totalPage)}>{totalPage}</li>)
             
-            //后面省略号
+            //Ellipsis for the ignored (back one)
             if (startPage + groupCount < totalPage) {
                 pages.push(<li className="ign" key={-2}>···</li>)
             }
+
             // Adjust innerLast  
             let innerLast = 0;
             if (currentPage < groupCount + 1){
@@ -66,7 +69,7 @@ class Pagecomponent extends Component {
                 innerLast = groupCount + startPage -1;
             }
             
-            //非第一页和最后一页显示
+            //Inner display
             for (let i = innerLast ; i >= startPage; i--) {
                 if (i <= totalPage - 1 && i > 1) {
                     pages.push(<li className={currentPage === i ? "activePage" : null} key={i}
@@ -76,25 +79,23 @@ class Pagecomponent extends Component {
 
             if (currentPage >= groupCount + 1){
                 pages.push(<li className="ign" key={-1}>···</li>)
-            }//前面省略号(当当前页码比分组的页码大时显示省略号)
+            }//Ellipsis for the ignored (front one)
 
-            //第一页
+            //First Page button
             pages.push(<li className={currentPage === 1 ? "activePage" : null} key={1}
                            onClick={this.pageClick.bind(this, 1)}>1</li>)
         }
-                //上一页
-        pages.push(<li className={currentPage === 1 ? "nomore" : null} onClick={this.prePageHandeler.bind(this)}
-                        key={0}><i className='fa fa-chevron-left'></i></li>)
+            //Prev page Button
+        pages.push(<li className={currentPage === 1 ? "nomore" : null} onClick={this.prePageHandeler.bind(this)}key={0}><i className='fa fa-chevron-left'></i></li>)
         
         return pages;
 
     }
 
-    //页码点击
+    //Page Click
     pageClick(clickedPage) {
         const {groupCount} = this.state
         const getCurrentPage = this.props.paginate;
-        //当 当前页码 大于 分组的页码 时，使 当前页 前面 显示 两个页码
         if (clickedPage-1 >= groupCount) {
             this.setState({
                 startPage: clickedPage - 2,
@@ -105,7 +106,6 @@ class Pagecomponent extends Component {
                 startPage: 1,
             })
         }
-        //第一页时重新设置分组的起始页
         if (clickedPage === 1) {
             this.setState({
                 startPage: 1,
@@ -114,11 +114,11 @@ class Pagecomponent extends Component {
         this.setState({
             currentPage: clickedPage,
         })
-        //将当前页码返回父组件
+        //Return Current Page to parent component
         getCurrentPage(clickedPage)
     }
 
-    //上一页事件
+    //Prev page handler
     prePageHandeler() {
         let {currentPage} = this.state
         if (--currentPage === 0) {
@@ -127,7 +127,7 @@ class Pagecomponent extends Component {
         this.pageClick(currentPage)
     }
 
-    //下一页事件
+    //Next Page handler
     nextPageHandeler() {
         let {currentPage,totalPage} = this.state
         if (++currentPage > totalPage) {
@@ -135,6 +135,7 @@ class Pagecomponent extends Component {
         }
         this.pageClick(currentPage)
     }
+    
     render() {
         const pageList = this.createNav();
         return (

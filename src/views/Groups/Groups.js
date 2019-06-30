@@ -21,10 +21,11 @@ class Groups extends Component {
       currentPage: 1,
       itemsPerpage: 8,
       totalPage: Math.ceil(GroupData.length / 8),
-      totalItem: GroupData.length,//总页码
+      totalItem: GroupData.length,
     };
   }
 
+  // Render the cards in the first row
   renderTableData1() {
     const indexOfLastItem = this.state.currentPage * 8 -4; //this.state.itemsPerpage
     const indexOfFirstItem = indexOfLastItem - 4; //this.state.itemsPerpage
@@ -77,6 +78,7 @@ class Groups extends Component {
     })
   }
 
+  //Render the event list for each card
   renderCardEventList(Events){
     if (Events.length <= 2) {
       return Events.map((event, index)=>{
@@ -88,6 +90,7 @@ class Groups extends Component {
       )}
   }
 
+  // Render the cards in the second row
   renderTableData2(){
     const indexOfLastItem = this.state.currentPage * 8; //this.state.itemsPerpage
     const indexOfFirstItem = indexOfLastItem - 4; //this.state.itemsPerpage
@@ -146,6 +149,7 @@ class Groups extends Component {
   }
 }
 
+  // pagination for group cards display
   paginate(pageNumber) {
     this.setState({
       currentPage: pageNumber,

@@ -5,10 +5,12 @@ import { Badge, Button, Input, Modal, ModalBody,
 import UserData from './tsconfig.json';
 import Select from 'react-select';
 
-var options = [];
+var avail_friends = [];
 UserData.forEach((friend, index) => {
-  options.push({value: friend.name, label: friend.name})
-}) // Contact Info
+  avail_friends.push({value: friend.name, label: friend.name})
+}) // Contact Info; Need to filter out the names already in the group
+
+
 
 export class InfoSheet extends Component {
   constructor(props) {
@@ -17,24 +19,37 @@ export class InfoSheet extends Component {
     this.renderMembers = this.renderMembers.bind(this);
     this.renderEvents = this.renderEvents.bind(this);
     this.handleAddMem = this.handleAddMem.bind(this);
+    this.handleDelMem = this.handleDelMem.bind(this);
+    this.handleDelEvt = this.handleDelEvt.bind(this);
     this.handleAddEvent = this.handleAddEvent.bind(this);
     this.addEvent = this.addEvent.bind(this); 
     this.mountEventlist = this.mountEventlist.bind(this);
     this.state = {
       modal: false,
       groupInfo: this.props.info, // Group Info
-      selectedOption:null,
+      selectedOptionAdd:null,
+      selectedOptionDel:null,
+      selectedEvent:null,
       newEvents: [{name:"", date:"", notes:""}]
     };
   }
   
   //For New Contact Submission Modal
   togglemodal() {
+    if (this.state.modal){
+      this.setState({
+        selectedOptionAdd:null,
+        selectedOptionDel:null,
+        selectedEvent:null,
+        newEvents: [{name:"", date:"", notes:""}]
+      })
+    }
     this.setState({
       modal: !this.state.modal,
     });
   }
-
+  
+  // Display Members
   renderMembers(){
     let {name} = this.state.groupInfo;
     return name.map((member, index) => {
@@ -43,7 +58,7 @@ export class InfoSheet extends Component {
         )
       })
    }
-
+   // Display Events
    renderEvents(){
     let {Events} = this.state.groupInfo;
     return Events.map((event, index) =>{
@@ -63,15 +78,30 @@ export class InfoSheet extends Component {
     })
    }
 
-  handleAddMem = selectedOption => {
-    this.setState({ selectedOption });
-    console.log(`Option selected:`, selectedOption);
+  // Add Member
+  handleAddMem = selectedOptionAdd => {
+    this.setState({ selectedOptionAdd });
+    console.log(`Option selected:`, selectedOptionAdd);
   };
 
+
+  // Delete Member
+  handleDelMem = selectedOptionDel => {
+    this.setState({ selectedOptionDel });
+    console.log(`Option selected:`, selectedOptionDel);
+  };
+
+  // Delete Event
+  handleDelEvt = selectedEvent => {
+    this.setState({ selectedEvent });
+    console.log(`Option selected:`, selectedEvent);
+  };
+
+  // Add Events
   handleAddEvent = (e) => {
     if (["name", "date", "note"].includes(e.target.className) ) {
       let eventlist = [...this.state.newEvents]
-      eventlist[e.target.dataset.id][e.target.className] = e.target.value
+      eventlist[e.target.datase.id][e.target.className] = e.target.value
       this.setState({ newEvents: eventlist }, () => console.log(this.state.newEvents))
     } else {
       this.setState({ [e.target.name]: e.target.value })
@@ -80,7 +110,7 @@ export class InfoSheet extends Component {
 
   addEvent = (e) => {
     this.setState((prevState) => ({
-      newEvents: [...prevState.newEvents, {name:"", date:""}],
+      newEvents: [...prevState.newEvents, {name:"", date:"", note: ""}],
     }));
 
   }
@@ -91,7 +121,7 @@ export class InfoSheet extends Component {
         let nameId = `name-${index}`, dateId = `date-${index}`, noteId = `note-${index}`;
         return (
           <FormGroup row id={index} key={index}>
-            <Col xs='1' className=" mr-0 pr-0 pt-1 "><Label htmlFor={nameId} className='event_label'>{`#${index + 1}`}</Label></Col>
+            <Col xs='1' className=" mr-1 pr-0 pt-1 "><Badge color = 'primary' htmlFor={nameId} className='event_label'>{`#${index + 1}`}</Badge></Col>
             <Col xs="12" md="5" className=" ml-1 pl-0 mr-2 pr-0">
               <Input
                 type="text"
@@ -133,6 +163,16 @@ export class InfoSheet extends Component {
 
 
     render() {
+        var curr_members = [];
+
+        this.props.info.name.forEach((member, index) => {
+          curr_members.push({value: member, label: member})
+        })
+
+        var curr_events = [];
+        this.props.info.Events.forEach((Event, index) =>{
+          curr_events.push({value: Event.EventName, label: Event.EventName})
+        })
         return (
           <div className='float-right mr-1'>
             <Button onClick={this.togglemodal} outline className='card-header-action' id='modalbtn'><i className="fa fa-arrow-right"></i></Button>
@@ -192,19 +232,31 @@ export class InfoSheet extends Component {
                     </Row>
                   </Col>
                   <Col lg='6'>
-                    <h5 className='ml-1 mb-3'><ins>Add New Member</ins></h5>
+                    <h5 className='ml-1 mb-3'><ins>Add New Members</ins></h5>
                     <Row className='mb-5'>
                       <Col xs="11" md="11" className=" add_member">
-                        <Select value={this.state.selectedOption} onChange={this.handleAddMem} options={options} isMulti/>
+                        <Select value={this.state.selectedOptionAdd} onChange={this.handleAddMem} options={avail_friends} isMulti/>
                       </Col>        
                     </Row>
-                    <h5 className='ml-1'><ins>Add New Event</ins></h5>
+                    <h5 className='ml-1 mb-3'><ins>Delete Current Members</ins></h5>
+                    <Row className='mb-5'>
+                      <Col xs="11" md="11" className=" add_member">
+                        <Select value={this.state.selectedOptionDel} onChange={this.handleDelMem} options={curr_members} isMulti/>
+                      </Col>        
+                    </Row>
+                    <h5 className='ml-1'><ins>Add New Events</ins> <Button onClick={this.addEvent} className='add_item_btn'><i className="fa fa-plus-circle pt-1 ml-5 pl-5" id='fa-pin'></i>&nbsp; Add Another</Button></h5>
                     <Row className=' mb-1'>
                       <Col xs="12" md="12" className=" ml-3 pl-0">
                         <Form onChange={this.handleAddEvent}>
-                          <Col xs="5" className='ml-auto '><Button onClick={this.addEvent} className='add_item_btn'><i className="fa fa-plus-circle pt-2 mr-0" id='fa-pin'></i>&nbsp; Add Another </Button></Col>
                           {this.mountEventlist()}
                         </Form>
+                      </Col>        
+                    </Row>
+                    <h5 className='ml-1'><ins>Delete Events</ins> </h5>
+                    <Row className=' mb-2 ml-1 mt-0 pt-0'><span className='text-muted pl-1 amount'>Choose the Event Title to delete</span></Row>
+                    <Row className='mb-1'>
+                      <Col xs="11" md="11" className=" add_member">
+                        <Select value={this.state.selectedEvent} onChange={this.handleDelEvt} options={curr_events} isMulti/>
                       </Col>        
                     </Row>
                   </Col>

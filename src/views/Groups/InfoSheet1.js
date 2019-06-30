@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Badge, Button, Input, Modal, ModalBody, 
           ModalFooter, ModalHeader, Col, Row, Form, FormGroup, 
-          Label,ListGroup, ListGroupItem,} from 'reactstrap';
+          Label, ListGroupItem,} from 'reactstrap';
 import UserData from './tsconfig.json';
 import Select from 'react-select';
 
@@ -30,11 +30,18 @@ export class InfoSheet extends Component {
   
   //For New Contact Submission Modal
   togglemodal() {
+    if (this.state.modal){
+      this.setState({
+        selectedOption:null,
+        newEvents: [{name:"", date:"", notes:""}]
+      })
+    }
     this.setState({
       modal: !this.state.modal,
     });
   }
 
+  // render the members for each group
   renderMembers(){
     let {name} = this.state.groupInfo;
     return name.map((member, index) => {
@@ -43,9 +50,9 @@ export class InfoSheet extends Component {
         )
       })
    }
-
-   renderEvents(){
-    let {Events} = this.state.groupInfo;
+  // render the events for each group
+  renderEvents(){
+  let {Events} = this.state.groupInfo;
     return Events.map((event, index) =>{
       return (
         <ListGroupItem key={index} action tag="a"className=" list-group-item-accent-info mt-0 mb-0 pt-1 pb-1 mr-0 pr-0">
@@ -61,13 +68,13 @@ export class InfoSheet extends Component {
         </ListGroupItem>
       )
     })
-   }
-
+  }
+  // Member addition
   handleAddMem = selectedOption => {
     this.setState({ selectedOption });
     console.log(`Option selected:`, selectedOption);
   };
-
+  // Event Addition
   handleAddEvent = (e) => {
     if (["name", "date", "note"].includes(e.target.className) ) {
       let eventlist = [...this.state.newEvents]
@@ -77,7 +84,7 @@ export class InfoSheet extends Component {
       this.setState({ [e.target.name]: e.target.value })
     }
   }
-
+  
   addEvent = (e) => {
     this.setState((prevState) => ({
       newEvents: [...prevState.newEvents, {name:"", date:""}],
@@ -90,9 +97,9 @@ export class InfoSheet extends Component {
     return eventlist.map((value, index)=> {
         let nameId = `name-${index}`, dateId = `date-${index}`, noteId = `note-${index}`;
         return (
-          <FormGroup row id={index} key={index}>
-            <Col xs='1' className=" mr-0 pr-0 pt-1 "><Label htmlFor={nameId} className='event_label'>{`#${index + 1}`}</Label></Col>
-            <Col xs="12" md="5" className=" ml-1 pl-0 mr-2 pr-0">
+          <FormGroup row id={index} key={index} className='mr-0'>
+            <Col xs='1' className=" mr-0 pr-0 pt-1 "><Badge color='primary' htmlFor={nameId} className='event_label'>{`#${index + 1}`}</Badge></Col>
+            <Col xs="12" md="5" className=" ml-0 pl-0 mr-0 pr-2">
               <Input
                 type="text"
                 name={nameId}
@@ -103,7 +110,7 @@ export class InfoSheet extends Component {
                 placeholder = "Event Name"
               />
             </Col>
-            <Col xs="5" className='ml-0 pl-0'>
+            <Col xs="5" className='ml-0 pl-0 mr-0 pr-0'>
               {/* <Label htmlFor={dateId}>Date</Label> */}
               <Input
                 type="date"
@@ -115,7 +122,7 @@ export class InfoSheet extends Component {
                 placeholder = "Event Date"
               />
             </Col>
-            <Col xs="11" className='ml-4 mt-1 pr-4'>
+            <Col xs="11" className='ml-auto mt-2 pr-5 mr-3'>
               <Input type="textarea" 
                     name="textarea-input" 
                     id={noteId}
@@ -141,21 +148,21 @@ export class InfoSheet extends Component {
             <Modal isOpen={this.state.modal} toggle={this.togglemodal} className={'modal-lg modal-primary '+ this.props.className} id='modalCenter'>
               <ModalHeader toggle={this.togglemodal} className='pt-2 mt-0 pb-2 mb-0'>
                 <strong className='modal-title'>Groups Info Sheet</strong>
-                <small> Editing</small>
+                <small> Creation</small>
               </ModalHeader>
               <ModalBody>
                 <Row>
                   
-                  <Col lg='6' xs='6'  className='pl-4 pr-3'>
-                    <h5 className='ml-1'><ins>Group Details</ins></h5>
+                  <Col lg='12' xs='12'  className='pl-4 pr-3'>
+                    <h5 className='ml-1'><i className='fa fa-list'></i>&nbsp; <ins> Group Details</ins></h5>
                     <Row className='mt-3 mb-0 pb-0'>
                       <Col>
                         <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
                           <FormGroup row>
-                          <Col md="4" className="mt-1 mr-0 pr-0">
+                          <Col md="2" className="mt-1 mr-0 pr-0">
                             <Label htmlFor="Firstname"><i className="fa fa-group mr-1"></i> Group Name</Label>
                           </Col>
-                          <Col xs="12" md="8" className=" ml-0 pl-0">
+                          <Col xs="12" md="10" className=" ml-0 pl-0">
                             <Input type="text" id="Firstname" name="text-input" placeholder="required" 
                                   value={this.state.groupInfo.GroupName} onChange='' required/> {/* Edit OnChange here to enable text editing */}
                           </Col>
@@ -163,8 +170,23 @@ export class InfoSheet extends Component {
                         </Form>
                       </Col>
                     </Row>
-                    <hr className='mt-0 pt-0 mb-0 pb-0'/>
-                    <Row className=' mt-0 pt-0 pb-0 mb-0'>
+                    <hr className='mt-0 pt-0 mb-2 pb-0'/>
+                    <h5 className='ml-1 mb-3'><i className='fa fa-user'></i>&nbsp; <ins> Add New Members</ins></h5>
+                    <Row className='mb-4'>
+                      <Col xs="12" md="12" className='pr-8'>
+                        <Select value={this.state.selectedOption} onChange={this.handleAddMem} options={options} isMulti/>
+                      </Col>        
+                    </Row>
+                    <hr className='mt-0 pt-0 mb-2 pb-0'/>
+                    <h5 className='ml-1'><i className='fa fa-calendar'></i>&nbsp; <ins> Add New Events</ins><Button onClick={this.addEvent} className='add_item_btn' id='create_event_btn'><i className="fa fa-plus-circle pt-1" id='fa-add'></i>&nbsp; Add Another </Button></h5>
+                    <Row className=' mb-1'>
+                      <Col xs="12" md="12" className=" ml-3 pl-0">
+                        <Form onChange={this.handleAddEvent}>
+                          {this.mountEventlist()}
+                        </Form>
+                      </Col>        
+                    </Row>
+{/*                     <Row className=' mt-0 pt-0 pb-0 mb-0'>
                         <Col className='text-center'>
                         <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
                           <FormGroup row>
@@ -191,30 +213,13 @@ export class InfoSheet extends Component {
                         {this.renderEvents()}
                       </ListGroup>
                       </Col>
-                    </Row>
-                  </Col>
-                  <Col lg='6'>
-                    <h5 className='ml-1 mb-3'><ins>Add New Member</ins></h5>
-                    <Row className='mb-5'>
-                      <Col xs="11" md="11" className=" add_member">
-                        <Select value={this.state.selectedOption} onChange={this.handleAddMem} options={options} isMulti/>
-                      </Col>        
-                    </Row>
-                    <h5 className='ml-1'><ins>Add New Event</ins></h5>
-                    <Row className=' mb-1'>
-                      <Col xs="12" md="12" className=" ml-3 pl-0">
-                        <Form onChange={this.handleAddEvent}>
-                          <Col xs="5" className='ml-auto '><Button onClick={this.addEvent} className='add_item_btn'><i className="fa fa-plus-circle pt-2 mr-0" id='fa-pin'></i>&nbsp; Add Another </Button></Col>
-                          {this.mountEventlist()}
-                        </Form>
-                      </Col>        
-                    </Row>
+                    </Row> */}
                   </Col>
                 </Row>
                 
               </ModalBody>
               <ModalFooter>
-                <Button color="primary" onClick={this.togglemodal}>Add</Button>{' '}
+                <Button color="primary" onClick={this.togglemodal}>Create</Button>{' '}
                 <Button color="secondary" onClick={this.togglemodal}>Cancel</Button>
               </ModalFooter>
             </Modal>

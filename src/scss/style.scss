@@ -129,6 +129,9 @@ img.user-icon-header{
 .female{
     color: #f86c6b;
 }
+#analysis_sum_break{
+    margin-left: 0;
+}
 
 //Contact Page
 .pagi-header{
@@ -249,8 +252,13 @@ Button.add_item_btn{
 .event_label{
     padding-top: 2px;
 }
+#create_event_btn{
+    float: right;
+    margin-right:3rem;
+}
+
 .add_member{
-    margin-left: 1.4rem;
+    margin-left: 0.8rem;
     padding-right: 0.9rem;
 }
 Button.nomore, Button.nomore:hover{
@@ -275,7 +283,7 @@ Button.nomore, Button.nomore:hover{
 .caption{
     position: absolute;
     top:38%;
-    left:13%;
+    left:15%;
     z-index:1;
     color:white;
   }
@@ -290,7 +298,7 @@ Button.nomore, Button.nomore:hover{
 }
 .caption h3{
     text-shadow: .1rem .1rem .8rem black;
-    letter-spacing: .15rem;
+    letter-spacing: .12rem;
 }
 
 .Landingf{
@@ -311,6 +319,16 @@ Button.nomore, Button.nomore:hover{
     border-color: white;
     border-width: 0.15rem;
     color: white;
+}
+
+Button#reg_btn{
+    margin-top: 3px;
+    padding-top: 3px;
+    border:none;
+}
+
+Button#reg_btn:hover{
+    color:rgba(47, 53, 58,0.9);
 }
 
 //Login page

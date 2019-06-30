@@ -19,7 +19,6 @@ class Contact extends Component {
     this.state = {
       dropdownOpen: new Array(2).fill(false),
       export: false,
-  //    dataList: [], 
       infos: UserData,
       headers: [
         { label: "id", key: "id" },
@@ -34,11 +33,11 @@ class Contact extends Component {
         { label: "Email", key: "Email" },
         { label: "Social_Account Facebook", key: "Social_Account.Facebook" },
         { label: "Social_Account Twitter", key: "Social_Account.Twitter" },
-      ],
+      ], // for export functionality
       currentPage: 1,
       itemsPerpage: 10,
       totalPage: Math.ceil(UserData.length / 10),
-      totalItem: UserData.length,//总页码
+      totalItem: UserData.length,
     };
     this.toggleExport= this.toggleExport.bind(this);
     this.toggledrop = this.toggledrop.bind(this);
@@ -46,26 +45,31 @@ class Contact extends Component {
     this.renderTags = this.renderTags.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.paginate= this.paginate.bind(this);
-    }
-
+  }
+   
+    
+  //Handle the delete Button for child component delete.js
   handleDelete(_State){
       this.setState({
         infos:[...this.state.infos.filter(info => info.id !== _State.id)]
       })
   } // Make sure the id of every UserData is unique so the actual JSON do not have repeated id.
   
+  // Display the tags as badges
   renderTags(index){
     return this.state.infos[index].Tags.map((tag, i)=>{
       return <Badge className="mr-1" color="primary" key={i}>{tag}</Badge>
     })
   }
 
+  // Handle the paginate for child component paginate.js
   paginate(pageNumber) {
     this.setState({
       currentPage: pageNumber,
     })
   }
 
+  //for the sort dropdown
   toggledrop(i) {
     const newArray = this.state.dropdownOpen.map((element, index) => { return (index === i ? !element : false); });
     this.setState({
@@ -73,6 +77,7 @@ class Contact extends Component {
     });
   }
 
+  // Enable Export modal (not used yet)
   toggleExport() {
     this.setState({
       export: !this.state.export,
@@ -93,6 +98,7 @@ class Contact extends Component {
        const { id, name, Major_Or_Title, Group, Tags, 
         Recent_Event, Event_Date, Phone, Email, Social_Account} = info //destructuring
        return (
+        
         <tr key={id}>
         <td className="text-center">
           <div className="avatar">
@@ -143,6 +149,7 @@ class Contact extends Component {
         <Row>
           <Col>
             <h1 className="h3 mb-3 text-gray-800">Contacts</h1>
+            <Fade timeout={200} in={true}>
             <Card className="card-accent-info shadow-sm">
               <CardHeader>
                 <i className="fa fa-align-justify"></i> Contact Book
@@ -176,8 +183,9 @@ class Contact extends Component {
                 </div>
               </CardHeader>
              <CardBody className=' pb-2 mb-0'>
+               {/* Main Table for display */}
              <Fade timeout={200} in={true}>
-             <Table hover responsive id="dataTable" className="table-outline mb-0 d-none d-sm-table">
+             <Table hover responsive id="dataTable" className="table-outline mb-0 d-none d-sm-table">                  
                   <thead className="thead-light">
                   <tr>
                     <th className="text-center"><i className="icon-people"></i></th>
@@ -208,6 +216,7 @@ class Contact extends Component {
               </Row>                
               </CardBody>
             </Card>
+            </Fade>
           </Col>
         </Row>
       </div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {  Button, Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
+import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
 
 export class InfoSheet extends Component {
   constructor(props) {
@@ -13,23 +13,19 @@ export class InfoSheet extends Component {
     };
   }
 
+  // Delete the Row, handled in contact page
   DeleteRow(){
     this.props.handleDelete(this.state)
   };
 
-  /*
-  delete() {
-        axios.get('http://localhost:4000/business/delete/'+this.props.obj._id)
-            .then(console.log('Deleted'))
-            .catch(err => console.log(err))
-  */
-
+  //modal change, trigger delete event upon confirm
   handleChange(){
     this.setState({
       delete: !this.state.delete,
     }, this.DeleteRow);
   };
 
+  //modal change, trigger delete event upon cancel
   toggleDelete() {
     this.setState({
       delete: !this.state.delete,

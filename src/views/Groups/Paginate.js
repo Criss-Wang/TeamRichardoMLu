@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import { Button } from 'reactstrap';
+
 // Note that the Pushing Sequence for the List is Reversed because of the float:right Styling.
+// Very similar to the pattern in pagination component for contact.js.
+
 class Pagecomponent extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            currentPage: 1, //当前页码
-            totalPage:10, //总页数
+            currentPage: 1,
+            totalPage:10, 
         }
     }
 
@@ -17,8 +20,6 @@ class Pagecomponent extends Component {
         })
     }
     
-
-    //上一页事件
     prePageHandeler() {
         
         let {currentPage} = this.state
@@ -31,10 +32,7 @@ class Pagecomponent extends Component {
             currentPage: currentPage,
         })
     }
- //   
 
-
-    //下一页事件
     nextPageHandeler() {
         let {currentPage,totalPage} = this.state
         const getCurrentPage = this.props.paginate;

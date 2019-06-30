@@ -7,7 +7,8 @@ import PropTypes from 'prop-types';
 import { AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
 import logo from '../../assets/img/brand/Brand.png'
 import sygnet from '../../assets/img/brand/Brand2.png'
-import Test from './InfoSheet.js'
+import Add from './InfoSheet.js'
+import jwt_decode from 'jwt-decode'
 
 const propTypes = {
   children: PropTypes.node,
@@ -24,8 +25,20 @@ class DefaultHeader extends Component {
       popoverOpen: false,
       selectedFile: null,
       pictures: [],
+      name: '',
+      email: '',
     };
   }
+
+//Extract User name and email up on successful login
+  componentDidMount () {
+    const token = localStorage.usertoken
+    const decoded = jwt_decode(token)
+    this.setState({
+        name: decoded.username,
+        email: decoded.email,
+    })
+}
 
 //For Reminder Popover
   togglepopover() {
@@ -34,11 +47,11 @@ class DefaultHeader extends Component {
     });
   }
 //For Picture Upload
-onDrop(picture) {
-  this.setState({
-      pictures: this.state.pictures.concat(picture)
-  })
-};
+  onDrop(picture) {
+    this.setState({
+        pictures: this.state.pictures.concat(picture)
+    })
+  };
   
   render() {
 
@@ -73,8 +86,9 @@ onDrop(picture) {
         <Nav className="ml-auto" navbar>
           {/* Add Contact Modal */}
           <NavItem>
-            <Test />
+            <Add />
           </NavItem>
+          {/* Reminder popover */}
           <NavItem className="d-md-down-none">
             <NavLink to="#" className="nav-link mt-1" onClick={this.togglepopover} id="Reminder" >
               <i className="icon-bell" id='reminder'></i><Badge pill color="danger">5</Badge>
@@ -111,9 +125,10 @@ onDrop(picture) {
             </Popover>
             </NavLink>
           </NavItem>
+          {/* User Admin */}
           <AppHeaderDropdown direction="down">
             <DropdownToggle nav className='mr-3'>
-              <img src={'../../assets/img/avatars/6.jpg'} className="user-icon-header img-avatar" alt="admin@bootstrapmaster.com" /> <span id='reminder2'>George Lucas</span>
+              <img src={'../../assets/img/avatars/6.jpg'} className="user-icon-header img-avatar" alt="admin@bootstrapmaster.com" /> <span id='reminder2'>{this.state.name}</span>
             </DropdownToggle>
             <DropdownMenu right style={{ right: 'auto' }} className='mt-2'>
               <DropdownItem header tag="div" className="text-center"><strong>Account</strong></DropdownItem>

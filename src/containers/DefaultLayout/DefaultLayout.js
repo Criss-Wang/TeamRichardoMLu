@@ -12,27 +12,32 @@ import navigation from '../../_nav';
 // routes config
 import routes from '../../routes';
 
+// Footer and Header
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 
 class DefaultLayout extends Component {
 
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
-
+  
+  // Signout Logic
   signOut(e) {
     e.preventDefault()
-    this.props.history.push('/Landing')
+    localStorage.removeItem('usertoken')
+    this.props.history.push('/login')
   }
 
   render() {
     return (
       <div className="app">
+        {/* App header component */}
         <AppHeader fixed className='frameheader shadow'>
           <Suspense  fallback={this.loading()}>
             <DefaultHeader onLogout={e=>this.signOut(e)}/>
           </Suspense>
         </AppHeader>
         <div className="app-body">
+          {/* App sidebar for page display selection */}
           <AppSidebar fixed display="lg">
             <Suspense>
               <AppSidebarNav navConfig={navigation} {...this.props} router={router}/>
@@ -41,6 +46,7 @@ class DefaultLayout extends Component {
           </AppSidebar>
           <main className="main">
             <AppBreadcrumb className='shadow-sm' appRoutes={routes} router={router}/>
+            {/* route based on the selection on the sidebar */}
             <Container fluid>
               <Suspense fallback={this.loading()}>
                 <Switch>
@@ -62,6 +68,7 @@ class DefaultLayout extends Component {
             </Container>
           </main>
         </div>
+        {/* App Footer section */}
         <AppFooter>
           <Suspense fallback={this.loading()}>
             <DefaultFooter />

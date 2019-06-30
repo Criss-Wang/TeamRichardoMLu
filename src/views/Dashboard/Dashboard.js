@@ -4,12 +4,9 @@ import {
 } from 'reactstrap';
 import Fill2 from './InfoSheet2';
 
-
 class Dashboard extends Component {
   constructor(props) {
     super(props);
-
-    this.toggleFade = this.toggleFade.bind(this);
 
     this.state = {
       fadeIn: true,
@@ -17,11 +14,12 @@ class Dashboard extends Component {
     };
   }
 
+/*   
   toggleFade() {
     this.setState((prevState) => { 
       return { fadeIn: !prevState }
     });
-  }
+  } */
 
 
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
@@ -33,7 +31,7 @@ class Dashboard extends Component {
          <Row>
           <Col xs="12" sm="6" md="4">
             <Fade timeout={this.state.timeout} in={this.state.fadeIn}>
-              
+              {/*Self Info card display */}
               <Card className='dash-card card-accent-info shadow-sm'>
                 <CardHeader>
                   <span>Your Info Card</span>
@@ -60,6 +58,7 @@ class Dashboard extends Component {
           <Col xs="12" sm="6" md="4"> 
             <Fade timeout={this.state.timeout} in={this.state.fadeIn}>
               <Card className='dash-card card-accent-info shadow-sm'>
+                {/*Event Summary display */}
                 <CardHeader>
                   Event Summary
                 </CardHeader>
@@ -151,12 +150,13 @@ class Dashboard extends Component {
           <Col xs="12" sm="6" md="4">
             <Fade timeout={this.state.timeout} in={this.state.fadeIn}>
               <Card className='dash-card card-accent-info shadow-sm'>
+                {/*Analysis Summary display */}
                 <CardHeader>
                   Analysis Summary
                 </CardHeader>
                 <CardBody className='pt-0 mt-3'>
                   <h6 className='card3-head'> <strong>This Month</strong> </h6>
-                  <hr className='mb-2 mt-2 break1 text-left'/>
+                  <hr className='mb-3 mt-1 break1 text-left' id='analysis_sum_break'/>
                   <Row className='mb-0 pb-0'>
                     <Col md='6'>
                       <h6 className='text-muted'><i className="fa fa-user-plus mr-2"></i> New Friends Added</h6>
@@ -169,7 +169,7 @@ class Dashboard extends Component {
                   </Row>
                   <hr className='mt-1 pt-0'/>
                   <h6 className='card3-head'><strong> Monthly Best Friends </strong></h6>
-                  <hr className='mb-2 mt-2 break2 text-left'/>
+                  <hr className='mb-3 mt-1 break2 text-left' id='analysis_sum_break'/>
                   <Row className='mb-0 pb-0'>
                     <Col md='2'>
                       <div className="avatar pr-0 mr-0">
@@ -227,6 +227,7 @@ class Dashboard extends Component {
         <Row>
           <Col>
             <Card className="card-accent-info shadow-sm">
+              {/*5 Most recent Addition display */}
               <CardHeader>
                 Recently Added
               </CardHeader>
