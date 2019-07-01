@@ -91,7 +91,7 @@ class DefaultHeader extends Component {
           {/* Reminder popover */}
           <NavItem className="d-md-down-none">
             <NavLink to="#" className="nav-link mt-1" onClick={this.togglepopover} id="Reminder" >
-              <i className="icon-bell" id='reminder'></i><Badge pill color="danger">5</Badge>
+              <i className="icon-bell" id='reminder'></i><Badge pill color="danger">2</Badge>
               <Popover placement="bottom" isOpen={this.state.popoverOpen} target="Reminder" toggle={this.togglepopover}>
                 <PopoverHeader>Reminders</PopoverHeader>
                 <PopoverBody>
@@ -100,25 +100,27 @@ class DefaultHeader extends Component {
                     <div className="avatar float-right">
                       <img className="img-avatar" src="assets/img/avatars/7.jpg" alt="admin@bootstrapmaster.com"></img>
                     </div>
-                    <div>Meeting with <strong>Lucas</strong> </div>
+                    <div>Birthday for <strong>Lucas</strong> </div>
                     <small className="text-muted mr-3">
-                      <i className="icon-calendar"></i>&nbsp; 1 - 3pm
+                      <i className="icon-calendar"></i>&nbsp; June 3rd
                     </small>
                     <small className="text-muted">
-                      <i className="icon-location-pin"></i> Palo Alto, CA
+                      <i className="icon-location-pin"></i> Celebrate!
                     </small>
                   </ListGroupItem>
-                  <ListGroupItem action tag="a" href="#" className="list-group-item-accent-info list-group-item-divider">
+                  <ListGroupItem action tag="a" href="#" className="list-group-item-accent-danger list-group-item-divider">
                     <div className="avatar float-right">
                       <img className="img-avatar" src="assets/img/avatars/4.jpg" alt="admin@bootstrapmaster.com"></img>
                     </div>
-                    <div>Skype with <strong>Megan</strong></div>
+                    <div> Remember your friend <strong>Megan</strong>?</div>
                     <small className="text-muted mr-3">
-                      <i className="icon-calendar"></i>&nbsp; 4 - 5pm
+                      <i className="icon-calendar"></i>&nbsp; had event 9 months ago
                     </small>
+                    <div>
                     <small className="text-muted">
-                      <i className="icon-social-skype"></i> On-line
+                      <i className="icon-social-skype"></i> Contact him!
                     </small>
+                    </div>
                   </ListGroupItem>
                 </ListGroup> 
                 </PopoverBody>
@@ -132,7 +134,6 @@ class DefaultHeader extends Component {
             </DropdownToggle>
             <DropdownMenu right style={{ right: 'auto' }} className='mt-2'>
               <DropdownItem header tag="div" className="text-center"><strong>Account</strong></DropdownItem>
-              <DropdownItem><i className="fa fa-envelope-o"></i> Invitations<Badge color="success">42</Badge></DropdownItem>
               <DropdownItem><i className="fa fa-cog"></i> Setting</DropdownItem>
               <DropdownItem><i className="fa fa-user"></i> Profile</DropdownItem>
               <DropdownItem onClick={e => this.props.onLogout(e)}><i className="fa fa-lock"></i> Logout</DropdownItem>

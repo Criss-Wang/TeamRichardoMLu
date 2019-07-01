@@ -12,6 +12,27 @@ import Fill3 from './Pagecomponent/Delete';
 import axios from 'axios';
 import { CSVLink } from "react-csv";
 
+const exportlist = [
+  { label: "id", key: "id" },
+  { label: "first name", key: "firstName" },
+  { label: "last name", key: "lastName" },
+  { label: "nickname", key: "nickname" },
+  { label: "Major", key: "Major" },
+  { label: "gender", key: "sex" },
+  { label: "birthday", key: "birthday" },
+  { label: "Department", key: "Department" },
+  { label: "Residence", key: "Residence" },
+  { label: "Year of Study", key: "YOS" },
+  { label: "Group", key: "Group" },
+  { label: "Tags", key: "Tags" },
+  { label: "Recent Event", key: "Recent_Event" },
+  { label: "Event Date", key: "Event_Date" },
+  { label: "Phone", key: "Phone" },
+  { label: "Email", key: "Email" },
+  { label: "Social_Account: Facebook", key: "Social_Account.Facebook" },
+  { label: "Social_Account: Twitter", key: "Social_Account.Twitter" },
+]
+
 class Contact extends Component {
   constructor(props) {
     super(props);
@@ -20,20 +41,7 @@ class Contact extends Component {
       dropdownOpen: new Array(2).fill(false),
       export: false,
       infos: UserData,
-      headers: [
-        { label: "id", key: "id" },
-        { label: "name", key: "name" },
-        { label: "Major Or Title", key: "Major_Or_Title" },
-        { label: "Year of Study", key: "YOS" },
-        { label: "Group", key: "Group" },
-        { label: "Tags", key: "Tags" },
-        { label: "Recent Event", key: "Recent_Event" },
-        { label: "Event Date", key: "Event_Date" },
-        { label: "Phone", key: "Phone" },
-        { label: "Email", key: "Email" },
-        { label: "Social_Account Facebook", key: "Social_Account.Facebook" },
-        { label: "Social_Account Twitter", key: "Social_Account.Twitter" },
-      ], // for export functionality
+      headers: exportlist, // for export functionality
       currentPage: 1,
       itemsPerpage: 10,
       totalPage: Math.ceil(UserData.length / 10),
@@ -45,9 +53,25 @@ class Contact extends Component {
     this.renderTags = this.renderTags.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.paginate= this.paginate.bind(this);
+    this.getContactInfo = this.getContactInfo.bind(this);
   }
    
-    
+  //Contact person's info update
+  getContactInfo(_info){
+    console.log(_info)
+
+    // Data be to synced with backend 
+    /* this.setState({
+      firstName: _info.firstName,
+      lastName: _info.lastName,
+      nickName: _info.nickName,
+      sex: _info.sex,
+      Major: _info.Major,
+      YOS: _info.YOS,
+      Tags: _info.Tags,
+      img: _info.img,
+    }) */
+  }
   //Handle the delete Button for child component delete.js
   handleDelete(_State){
       this.setState({
@@ -95,20 +119,20 @@ class Contact extends Component {
     let infoDisplay = this.state.infos.slice(indexOfFirstItem, indexOfLastItem); 
 
     return infoDisplay.map((info, index) => {
-       const { id, name, Major_Or_Title, Group, Tags, 
-        Recent_Event, Event_Date, Phone, Email, Social_Account} = info //destructuring
+       const { id, firstName, lastName, nickname, Department, YOS, Major, Group, Tags, sex,
+        Recent_Event, Event_Date, Phone, Email, Social_Account, img, Residence, birthday, note} = info //destructuring
        return (
         
         <tr key={id}>
         <td className="text-center">
           <div className="avatar">
-            <img src={'assets/img/avatars/1.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+            <img src={img} className="img-avatar" alt="admin@bootstrapmaster.com" />
           </div>
         </td>
         <td>
-          <div>{name}</div>
+          <div>{(nickname === '')?`${firstName} ${lastName}`:`${firstName} ${lastName}, ${nickname}`}</div>
           <div className="small text-muted">
-            <span>{Major_Or_Title}</span> 
+            <span>{Major}</span> 
           </div>
         </td>
         <td className="text-center">
@@ -131,7 +155,26 @@ class Contact extends Component {
         </td>
         <td className='pl-0 ml-0 mr-0 pr-0 text-center'>
           <div className='mr-0'>
-          <Fill />
+          <Fill firstName={firstName}
+                lastName={lastName}
+                nickName={nickname}
+                sex={sex}
+                birthday={birthday}
+                Department={Department}
+                Major={Major}
+                YOS={YOS}
+                Tags={Tags}
+                Phone={Phone}
+                Email={Email}
+                Residence={Residence}
+                Social_Contact_type= {"Facebook"}
+                Social_Contact_account={Social_Account.Facebook}
+                BM_date={Event_Date}
+                BM_name={Recent_Event}
+                note={note}
+                img={img}
+                getContactInfo = {this.getContactInfo}
+                 />
           <Fill2 facebook={Social_Account.Facebook} twitter={Social_Account.Twitter}/>
           <Fill3 handleDelete={this.handleDelete} id={id}/>
         </div>  

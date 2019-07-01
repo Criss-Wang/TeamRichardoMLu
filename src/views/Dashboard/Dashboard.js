@@ -2,15 +2,26 @@ import React, { Component } from 'react';
 import {
   Badge,Button,Card,CardBody, CardHeader,Col,Row,Table, Fade, ListGroupItem, ListGroup,
 } from 'reactstrap';
+
 import Fill2 from './InfoSheet2';
 
 class Dashboard extends Component {
   constructor(props) {
     super(props);
-
+    this.getSelfInfo = this.getSelfInfo.bind(this);
+    this.showTags = this.showTags.bind(this);
     this.state = {
       fadeIn: true,
       timeout: 200,
+      //Infos
+      firstName: 'Raul',
+      lastName: 'Menendez',
+      nickName: '',
+      sex: 'Male',
+      Major: '',
+      YOS: '',
+      Tags: ['Anime', "Invest Soc", "Math Soc"],
+      img: 'assets/img/avatars/4.jpg',
     };
   }
 
@@ -20,7 +31,28 @@ class Dashboard extends Component {
       return { fadeIn: !prevState }
     });
   } */
-
+  // Receive info filled from infosheet
+  getSelfInfo(_info){
+    this.setState({
+      firstName: _info.firstName,
+      lastName: _info.lastName,
+      nickName: _info.nickName,
+      sex: _info.sex,
+      Major: _info.Major,
+      YOS: _info.YOS,
+      Tags: _info.Tags,
+      img: _info.img,
+    })
+  }
+  //Display tags on info card
+  showTags(){
+    let {Tags} = this.state;
+    return Tags.map((tag, index) =>{
+      return (
+        <Badge key={index} className="user-tag" color="primary">{tag}</Badge>
+      )
+    })
+  }
 
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
@@ -36,19 +68,28 @@ class Dashboard extends Component {
                 <CardHeader>
                   <span>Your Info Card</span>
                   <div className="card-header-actions">
-                    <Fill2/>
+                    <Fill2 firstName= {this.state.firstName}
+                          lastName={this.state.lastName}
+                          nickName={this.state.nickName}
+                          sex={this.state.sex}
+                          Major={this.state.Major}
+                          YOS={this.state.YOS}
+                          Tags= {this.state.Tags}
+                          img={this.state.img}
+                          getSelfInfo = {this.getSelfInfo}/>
                   </div>
                 </CardHeader> 
                 <CardBody className='text-center'>
                   <img src={'assets/img/avatars/4.jpg'}  className="rounded-circle w-50 pb-2" id='user-icon' alt="admin@bootstrapmaster.com" />
-                  <h4 className='pb-0 mb-0'><strong className='Username'>Araon Menendez </strong><i className='fa fa-mars male'></i><i className='fa fa-venus female'></i></h4>
-                  <p className='pt-0 mt-0 pb-0 mb-0'>Applied Mathematics</p>
-                  <p className='pt-0 mt-0 pb-0 mb-0'>Undergraduate-Year 2 </p>
+                  <h4 className='pb-0 mb-0'>
+                      <strong className='Username'>{(this.state.nickName === '')?`${this.state.firstName} ${this.state.lastName}`:`${this.state.firstName} ${this.state.lastName}, ${this.state.nickName}`} </strong>
+                      {(this.state.sex === "Male")?<i className='fa fa-mars male'></i>:<i className='fa fa-venus female'></i>}
+                  </h4>
+                  <p className='pt-0 mt-0 pb-0 mb-0'>{this.state.Major}</p>
+                  <p className='pt-0 mt-0 pb-0 mb-0'>{this.state.YOS} </p>
                   <hr/>
                   <div className="text-center">
-                      <Badge className="user-tag" color="primary">Anime</Badge>
-                      <Badge className="user-tag" color="primary">Invest Soc</Badge>
-                      <Badge className="user-tag" color="primary">Math Soc</Badge>
+                    {this.showTags()}
                   </div>
                 </CardBody>
               </Card>
