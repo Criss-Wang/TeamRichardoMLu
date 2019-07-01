@@ -106,8 +106,9 @@ errorDisplay(){
                                 onChange={this.onChange} />
                       </InputGroup>
                       <Row>
-                        <Col xs="12 text-center">
-                          <Button color="primary" className="px-4" block type='submit'>Login</Button>
+                        <Col xs="12 text-left">
+                          <Button color="primary" className="px-4" type='submit'>Login</Button>
+                          <Button color='secondary' className="btn-twitter nuslogin" ><span><i className='fa fa-user mr-2'></i> NUS Login</span></Button>
                         </Col>
                       </Row>
                     </Form>

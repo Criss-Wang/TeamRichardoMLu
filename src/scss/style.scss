@@ -349,5 +349,9 @@ Button#reg_btn:hover{
     background-image: url('./img/bg.png');
     background-size: cover;
 }
+
+.nuslogin{
+    float: right;
+}
 // ie fixes
 @import "ie-fix";
