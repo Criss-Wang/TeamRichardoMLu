@@ -210,14 +210,6 @@ export class InfoSheet extends Component {
               <small> Editing</small>
             </ModalHeader>
             <ModalBody>
-            <div className="app">
-              <Dropzone
-                onDrop={this.onDrop}
-              >
-                Drop your best gator GIFs here!!
-              </Dropzone>
-            </div>
-
               <Row>
                 {/* Left side: Personal Info */}
                 <Col lg='6' xs='6'  className='pl-4 pr-3'>
@@ -257,6 +249,7 @@ export class InfoSheet extends Component {
                     {/*Image Uploading */}
                     <Col md='3' className='text-center mt-3'>
                         <img src={this.state.img ? this.state.img : '../../assets/img/avatars/6.jpg'} className="img-avatar mb-3" alt="admin@bootstrapmaster.com" />
+                        <Input type='file' className='inputhere' onChange={this.onChange}/>
                     </Col>
                   </Row>
                   {/*Sex and Birthday */}
