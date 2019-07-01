@@ -20,8 +20,8 @@ class Dashboard extends Component {
       sex: 'Male',
       Major: '',
       YOS: '',
-      Tags: ['Anime', "Invest Soc", "Math Soc"],
-      img: 'assets/img/avatars/4.jpg',
+      Tags: [],
+      img: 'assets/img/defaultUser.png',
     };
   }
 
@@ -80,7 +80,7 @@ class Dashboard extends Component {
                   </div>
                 </CardHeader> 
                 <CardBody className='text-center'>
-                  <img src={'assets/img/avatars/4.jpg'}  className="rounded-circle w-50 pb-2" id='user-icon' alt="admin@bootstrapmaster.com" />
+                  <img src={this.state.img}  className="rounded-circle w-50 pb-2" id='user-icon' alt="admin@bootstrapmaster.com" />
                   <h4 className='pb-0 mb-0'>
                       <strong className='Username'>{(this.state.nickName === '')?`${this.state.firstName} ${this.state.lastName}`:`${this.state.firstName} ${this.state.lastName}, ${this.state.nickName}`} </strong>
                       {(this.state.sex === "Male")?<i className='fa fa-mars male'></i>:<i className='fa fa-venus female'></i>}

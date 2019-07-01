@@ -37,6 +37,18 @@ export class InfoSheet extends Component {
       newTags: ['',]
     };
   }
+  //Delete Tags function
+  delTags(i){
+    if (i >= this.state.Tags.length){
+      this.setState({
+        newTags:[...this.state.newTags.filter(tag => this.state.newTags.indexOf(tag) !== (i-this.state.Tags.length))]
+      })
+    } else {
+      this.setState({
+        Tags:[...this.state.Tags.filter(tag => this.state.Tags.indexOf(tag) !== i)]
+      })
+    }
+  }
   //sex check default is male
   onRadio(){
     if (this.state.sex === 'Male') {
@@ -150,7 +162,7 @@ export class InfoSheet extends Component {
       let displayed = [...Tags].concat([...newTags]);
       return [...displayed].map((tag, index) => {
         return (
-          <Badge key={index}className="mr-1" color="primary">{tag}</Badge>
+          <Badge key={index}className="mr-1" color="primary"><span>{tag} </span>&nbsp;<Button className='cancel' onClick={this.delTags.bind(this, index)}><i className='fa fa-times'></i></Button></Badge>
         )
       })
     }

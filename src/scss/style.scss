@@ -87,7 +87,19 @@ img.user-icon-header{
 #modalbtn{
     border:none;
 }
-
+.cancel, .cancel:hover, .cancel:focus, .cancel:active
+{
+    background: transparent !important;
+    padding: 0;
+    padding-top: 0;
+    padding-bottom: 1px;
+    margin: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: white !important;
+    border: none !important;
+    font-size: 10px;
+}
 //DashBoard
 .dash-card{
     max-height: 466px;

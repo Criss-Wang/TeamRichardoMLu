@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Badge, Button, Input, Modal, ModalBody, 
           ModalFooter, ModalHeader, Col, Row, Form, FormGroup, Label} from 'reactstrap';
+import Dropzone from 'react-dropzone';
+import request from 'superagent';
 
 export class InfoSheet extends Component {
   constructor(props) {
@@ -13,8 +15,10 @@ export class InfoSheet extends Component {
     this.togglesubmit = this.togglesubmit.bind(this);
     this.onRadio = this.onRadio.bind(this);
     this.TagDisplay = this.TagDisplay.bind(this);
+
     this.state = {
       modal: false,
+      uploadedFile: null,
       // Infos
       firstName: '',
       lastName: '',
@@ -51,7 +55,18 @@ export class InfoSheet extends Component {
     })
   }
 
-  
+  //Delete Tags function
+  delTags(i){
+    if (i >= this.state.Tags.length){
+      this.setState({
+        newTags:[...this.state.newTags.filter(tag => this.state.newTags.indexOf(tag) !== (i-this.state.Tags.length))]
+      })
+    } else {
+      this.setState({
+        Tags:[...this.state.Tags.filter(tag => this.state.Tags.indexOf(tag) !== i)]
+      })
+    }
+  }
   //sex check default is male
   onRadio(){
     if (this.state.sex === 'Male') {
@@ -178,7 +193,7 @@ export class InfoSheet extends Component {
     let displayed = [...Tags].concat([...newTags]);
     return [...displayed].map((tag, index) => {
       return (
-        <Badge key={index}className="mr-1" color="primary">{tag}</Badge>
+        <Badge key={index}className="mr-1" color="primary"><span>{tag} </span>&nbsp;<Button className='cancel' onClick={this.delTags.bind(this, index)}><i className='fa fa-times'></i></Button></Badge>
       )
     })
   }
@@ -195,6 +210,14 @@ export class InfoSheet extends Component {
               <small> Editing</small>
             </ModalHeader>
             <ModalBody>
+            <div className="app">
+              <Dropzone
+                onDrop={this.onDrop}
+              >
+                Drop your best gator GIFs here!!
+              </Dropzone>
+            </div>
+
               <Row>
                 {/* Left side: Personal Info */}
                 <Col lg='6' xs='6'  className='pl-4 pr-3'>
