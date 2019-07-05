@@ -5,7 +5,6 @@ import {
 } from 'reactstrap';
 import Fill1 from './InfoSheet1';
 import Fill2 from './InfoSheet2';
-import GroupData from './tsconfig2.json';
 import Pagecomponent from './Paginate';
 import axios from "axios";
 

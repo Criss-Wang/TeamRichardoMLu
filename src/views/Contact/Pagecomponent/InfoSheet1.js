@@ -1,28 +1,31 @@
 import React, { Component } from 'react'
 import { Badge, Button, Input, Modal, ModalBody, 
           ModalFooter, ModalHeader, Col, Row, Form, FormGroup, Label} from 'reactstrap';
+import axios from "axios";
+
 
 export class InfoSheet extends Component {
   constructor(props) {
     super(props);
     this.togglemodal = this.togglemodal.bind(this);
+    this.togglesubmit = this.togglesubmit.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.uploadImage = this.uploadImage.bind(this);
+    this.onRadio = this.onRadio.bind(this);
     this.addTag = this.addTag.bind(this);
     this.mountTaglist = this.mountTaglist.bind(this);
     this.handleAddTag = this.handleAddTag.bind(this);
-    this.togglesubmit = this.togglesubmit.bind(this);
-    this.onRadio = this.onRadio.bind(this);
     this.TagDisplay = this.TagDisplay.bind(this);
-    this.uploadImage = this.uploadImage.bind(this);
 
     this.state = {
       modal: false,
       loading: false,
       // Infos
+      id: '',
       firstName: '',
       lastName: '',
       nickName:'',
-      sex: '',
+      sex: 'Female',
       birthday: '',
       Department: '',
       Major: '',
@@ -43,6 +46,7 @@ export class InfoSheet extends Component {
   // Sync the parent's states
   componentDidMount(){
     this.setState({
+      id:this.props.id,
       firstName: this.props.firstName,
       lastName: this.props.lastName,
       nickName:this.props.nickName,
@@ -63,6 +67,111 @@ export class InfoSheet extends Component {
       img: this.props.img,
     })
   }
+  //For New Contact Submission Modal
+  togglemodal() {
+    if (this.state.modal){
+      this.setState({
+        id:this.props.id,
+        firstName: this.props.firstName,
+        lastName: this.props.lastName,
+        nickName:this.props.nickName,
+        sex: this.props.sex,
+        birthday: this.props.birthday,
+        Department: this.props.Department,
+        Major: this.props.Major,
+        YOS: this.props.YOS,
+        Tags: this.props.Tags,
+        Phone: this.props.Phone,
+        Email: this.props.Email,
+        Residence: this.props.Residence,
+        Social_Contact_type: this.props.Social_Contact_type,
+        Social_Contact_account:this.props.Social_Contact_account,
+        BM_date:this.props.BM_date,
+        BM_name: this.props.BM_name,
+        note: this.props.note,
+        img: this.props.img,
+        newTags: ['',]
+      })
+    }
+    this.setState({
+      modal: !this.state.modal,
+    });
+  }
+  // Value inputs
+  onChange (e) {
+    this.setState({ [e.target.name]: e.target.value })
+  }
+
+  // for form submission
+  togglesubmit(){
+    let taglist = [];
+    if (!(this.state.Tags===null)){
+    this.state.Tags.forEach((tag)=>{
+      taglist.push(tag)
+    })};
+    if (!(this.state.newTags===null)){
+      this.state.newTags.forEach((tag)=>{
+        if (tag !== ''){
+        taglist.push(tag)}
+      })};
+    let sociallist = [];
+    if (!(this.state.Social_Contact_account===null)){
+        sociallist = [{Channel:this.state.Social_Contact_type, 
+        Account:this.state.Social_Contact_account}]
+    }
+    const info = {
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      nickname: this.state.nickName,
+      sex: this.state.sex,
+      birthday: this.state.birthday,
+      Department: this.state.Department,
+      Major: this.state.Major,
+      YOS: this.state.YOS,
+      Tags: taglist,
+      Phone: this.state.Phone,
+      Email: this.state.Email,
+      Recent_Event: this.state.BM_name,
+      Event_Date:this.state.BM_date,
+      img:this.state.img,
+      note:this.state.note,
+      SocialAccount:sociallist,
+    }
+    axios.put(`http://localhost:5000/contacts/updatecontact/${this.state.id}`, info)
+    .then(res => {
+      this.props.updateInfo(true); //update the contact table upon addition
+    })
+    .then(()=>{
+      if (this.state.modal){
+        this.setState({
+          id:this.props.id,
+          firstName: this.props.firstName,
+          lastName: this.props.lastName,
+          nickName:this.props.nickName,
+          sex: this.props.sex,
+          birthday: this.props.birthday,
+          Department: this.props.Department,
+          Major: this.props.Major,
+          YOS: this.props.YOS,
+          Tags: this.props.Tags,
+          Phone: this.props.Phone,
+          Email: this.props.Email,
+          Residence: this.props.Residence,
+          Social_Contact_type: this.props.Social_Contact_type,
+          Social_Contact_account:this.props.Social_Contact_account,
+          BM_date:this.props.BM_date,
+          BM_name: this.props.BM_name,
+          note: this.props.note,
+          img: this.props.img,
+          newTags: ['',]
+        })
+      }
+    });
+    this.setState({
+      modal: !this.state.modal,
+    });
+  }
+
   //image upload
   uploadImage = async e => {
     const files = e.target.files
@@ -101,92 +210,7 @@ export class InfoSheet extends Component {
       return false
     }
   }
-  // Value inputs
-  onChange (e) {
-    this.setState({ [e.target.name]: e.target.value })
-  }
 
-  // for form submission
-  togglesubmit(){
-    const getContactInfo = this.props.getContactInfo;
-     const info = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      nickName: this.state.nickName,
-      sex: this.state.sex,
-      birthday: this.state.birthday,
-      Department: this.state.Department,
-      Major: this.state.Major,
-      YOS: this.state.YOS,
-      Tags: this.state.Tags.concat(this.state.newTags),
-      Phone: this.state.Phone,
-      Email: this.state.Email,
-      Residence: this.state.Residence,
-      Social_Contact_type: this.state.Social_Contact_type,
-      Social_Contact_account:this.state.Social_Contact_account,
-      BM_date:this.state.BM_date,
-      BM_name: this.state.BM_name,
-      note: this.state.note,
-      img: this.state.img,
-    }
-    if (this.state.modal){
-      this.setState({
-        firstName: '',
-        lastName: '',
-        nickName: '',
-        sex: '',
-        birthday: '',
-        Department: '',
-        Major: '',
-        YOS: '',
-        Tags: '',
-        Phone: '',
-        Email: '',
-        Residence: '',
-        Social_Contact_type: '',
-        Social_Contact_account:'',
-        BM_date:'',
-        BM_name: '',
-        note: '',
-        img: '',
-        newTags: ['',]
-      })
-      getContactInfo(info)
-    }
-    this.setState({
-      modal: !this.state.modal,
-    });
-  }
-  
-  //For New Contact Submission Modal
-  togglemodal() {
-    if (this.state.modal){
-      this.setState({
-        firstName: '',
-        lastName:'',
-        nickName: '',
-        sex: '',
-        birthday: '',
-        Department: '',
-        Major: '',
-        YOS:'',
-        Tags: '',
-        Phone: '',
-        Email: '',
-        Residence: '',
-        Social_Contact_type: '',
-        Social_Contact_account:'',
-        BM_date:'',
-        BM_name: '',
-        note: '',
-        img: '',
-        newTags: ['a',]
-      })
-    }
-    this.setState({
-      modal: !this.state.modal,
-    });
-  }
   // For tag additions
   addTag = (e) => {
     this.setState((prevState) => ({
@@ -283,7 +307,7 @@ export class InfoSheet extends Component {
                     </Col>
                     {/*Image Uploading */}
                     <Col md='3' className='text-center mt-3'>
-                        <img src={this.state.img ? this.state.img : '../../assets/img/avatars/6.jpg'} className="img-avatar mb-3" alt="admin@bootstrapmaster.com" />
+                        <img src={this.state.img ? this.state.img : '../../assets/img/defaultUser.png'} className="img-avatar mb-3" alt="admin@bootstrapmaster.com" />
                         <Input type='file' name="file" className='inputhere' onChange={this.uploadImage}/>
                         <h6>{this.state.loading?'loading':null}</h6>
                     </Col>
@@ -464,10 +488,9 @@ export class InfoSheet extends Component {
                 </Row>
                 </Col>
               </Row>
-              
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={this.togglesubmit}>Add</Button>{' '}
+              <Button color="primary" onClick={this.togglesubmit}>Update</Button>{' '}
               <Button color="secondary" onClick={this.togglemodal}>Cancel</Button>
             </ModalFooter>
           </Modal>

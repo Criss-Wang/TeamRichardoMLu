@@ -4,8 +4,7 @@ import { Badge, Button, Input, Modal, ModalBody,
           Label,} from 'reactstrap';
 import UserData from './tsconfig.json';
 import Select from 'react-select';
-import axios from 'axios';
-import { get } from 'https';
+
 
 var options = [];
 UserData.forEach((friend, index) => {

@@ -5,6 +5,7 @@ import { Badge, Button, Input, Modal, ModalBody,
 import UserData from './tsconfig.json';
 import Select from 'react-select';
 
+//Sync the contact data here, need to do later
 var avail_friends = [];
 UserData.forEach((friend, index) => {
   avail_friends.push({value: friend.name, label: friend.name})

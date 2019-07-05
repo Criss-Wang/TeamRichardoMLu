@@ -5,7 +5,6 @@ import {
   DropdownToggle, Row,Table, Fade,
 } from 'reactstrap';
 import Pagecomponent from './Pagecomponent/Paginate';
-import UserData from './Pagecomponent/tsconfig.json';
 import Fill from './Pagecomponent/InfoSheet1';
 import Fill2 from './Pagecomponent/social';
 import Fill3 from './Pagecomponent/Delete';
@@ -13,7 +12,6 @@ import axios from 'axios';
 import { CSVLink } from "react-csv";
 
 const exportlist = [
-  { label: "id", key: "id" },
   { label: "first name", key: "firstName" },
   { label: "last name", key: "lastName" },
   { label: "nickname", key: "nickname" },
@@ -29,56 +27,74 @@ const exportlist = [
   { label: "Event Date", key: "Event_Date" },
   { label: "Phone", key: "Phone" },
   { label: "Email", key: "Email" },
-  { label: "Social_Account: Facebook", key: "Social_Account.Facebook" },
-  { label: "Social_Account: Twitter", key: "Social_Account.Twitter" },
+  { label: "Social_Account: Facebook", key: "SocialAccount[0].Channel" },
+  { label: "Social_Account: Twitter", key: "SocialAccount[0].Account" }, 
   { label: "Note", key: "note" },
 ]
 
 class Contact extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      dropdownOpen: new Array(2).fill(false),
-      export: false,
-      infos: UserData,
-      headers: exportlist, // for export functionality
-      currentPage: 1,
-      itemsPerpage: 10,
-      totalPage: Math.ceil(UserData.length / 10),
-      totalItem: UserData.length,
-    };
     this.toggleExport= this.toggleExport.bind(this);
     this.toggledrop = this.toggledrop.bind(this);
     this.renderTableData= this.renderTableData.bind(this);
     this.renderTags = this.renderTags.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.paginate= this.paginate.bind(this);
-    this.getContactInfo = this.getContactInfo.bind(this);
-  }
-   
-  //Contact person's info update
-  getContactInfo(_info){
-    console.log(_info)
 
-    // Data be to synced with backend 
-    /* this.setState({
-      firstName: _info.firstName,
-      lastName: _info.lastName,
-      nickName: _info.nickName,
-      sex: _info.sex,
-      Major: _info.Major,
-      YOS: _info.YOS,
-      Tags: _info.Tags,
-      img: _info.img,
-    }) */
+    this.state = {
+      dropdownOpen: new Array(2).fill(false),
+      contactUpdated: false,
+      export: false,
+      infos: [],
+      headers: exportlist, // for export functionality
+      currentPage: 1,
+      itemsPerpage: 10,
+      totalPage: 1,
+      totalItem: 0,
+    };
   }
+  // Initialize data
+  componentDidMount(){
+    axios.get('http://localhost:5000/contacts/getcontact')
+    .then(res => {
+        this.setState({
+          infos: res.data,
+          totalPage: Math.ceil(res.data.length / 10),
+          totalItem: res.data.length,
+        })
+    });
+  }
+
+  // Info Addition updated
+  componentDidUpdate(){
+    if(this.state.contactUpdated !== this.props.contactUpdated){
+      axios.get('http://localhost:5000/contacts/getcontact')
+          .then(res => {
+              this.setState({
+                infos: res.data,
+                totalPage: Math.ceil(res.data.length / 10),
+                totalItem: res.data.length,
+              })
+          });
+      this.props.updateInfo(false);
+    }
+  }
+  
   //Handle the delete Button for child component delete.js
   handleDelete(_State){
-      this.setState({
-        infos:[...this.state.infos.filter(info => info.id !== _State.id)]
-      })
-  } // Make sure the id of every UserData is unique so the actual JSON do not have repeated id.
+      if(_State.delete === true){
+          axios.delete(`http://localhost:5000/contacts/deletecontact/${_State.id}`)
+            .then(response => {
+              console.log(response)
+                this.setState({
+                  infos: response.data,
+                  totalPage: Math.ceil(response.data.length / 10),
+                  totalItem: response.data.length,
+                })
+            });
+      }
+  } 
   
   // Display the tags as badges
   renderTags(index){
@@ -109,25 +125,24 @@ class Contact extends Component {
     });
   }
 
-
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
   //Change the infos into sliced infoDisplay
   renderTableData() {
-
+    if (this.state.infos !== []){
     const indexOfLastItem = this.state.currentPage * this.state.itemsPerpage;
     const indexOfFirstItem = indexOfLastItem - this.state.itemsPerpage;
     let infoDisplay = this.state.infos.slice(indexOfFirstItem, indexOfLastItem); 
 
     return infoDisplay.map((info, index) => {
-       const { id, firstName, lastName, nickname, Department, YOS, Major, Group, Tags, sex,
-        Recent_Event, Event_Date, Phone, Email, Social_Account, img, Residence, birthday, note} = info //destructuring
+       const { _id, firstName, lastName, nickname, Department, YOS, Major, Group, Tags, sex,
+        Recent_Event, Event_Date, Phone, Email, SocialAccount, img, Residence, birthday, note} = info //destructuring
        return (
         
-        <tr key={id}>
+        <tr key={index}>
         <td className="text-center">
           <div className="avatar">
-            <img src={img} className="img-avatar" alt="admin@bootstrapmaster.com" />
+            <img src={(img!== '')?img:'../../assets/img/defaultUser.png'} className="img-avatar" alt="admin@bootstrapmaster.com" />
           </div>
         </td>
         <td>
@@ -140,7 +155,7 @@ class Contact extends Component {
           <span className='text-muted'>{(Group.length === 0 ) ? 'None': Group}</span>
         </td>
         <td>
-          <div className="text-center">
+          <div className="text-center text-muted">
           {(Tags.length === 0 ) ? 'None': this.renderTags(index)}
           </div>
         </td>
@@ -156,7 +171,8 @@ class Contact extends Component {
         </td>
         <td className='pl-0 ml-0 mr-0 pr-0 text-center'>
           <div className='mr-0'>
-          <Fill firstName={firstName}
+          <Fill id = {_id}
+                firstName={firstName}
                 lastName={lastName}
                 nickName={nickname}
                 sex={sex}
@@ -168,21 +184,21 @@ class Contact extends Component {
                 Phone={Phone}
                 Email={Email}
                 Residence={Residence}
-                Social_Contact_type= {"Facebook"}
-                Social_Contact_account={Social_Account.Facebook}
+                Social_Contact_type= {SocialAccount[0].Channel}
+                Social_Contact_account={SocialAccount[0].Account}
                 BM_date={Event_Date}
                 BM_name={Recent_Event}
                 note={note}
                 img={img}
-                getContactInfo = {this.getContactInfo}
+                updateInfo = {this.props.updateInfo}
                  />
-          <Fill2 facebook={Social_Account.Facebook} twitter={Social_Account.Twitter}/>
-          <Fill3 handleDelete={this.handleDelete} id={id}/>
+          <Fill2 SocialAccount={SocialAccount}/>
+          <Fill3 handleDelete={this.handleDelete} id={_id}/>
         </div>  
         </td>
       </tr>
        )
-    })
+    })}
  }
 
   render() {
@@ -215,15 +231,7 @@ class Contact extends Component {
                 <Button color="primary"  className="mr-3 " size='sm' onClick={this.toggleExport}>
                   <CSVLink className='export' data={this.state.infos} headers={this.state.headers} filename={"Contact_Book.csv"}><i className="fa fa-cloud-download"></i>&nbsp; Export </CSVLink>
                 </Button>
-{/*                 <Modal isOpen={this.state.export} toggle={this.toggleExport}
-                       className={'modal-info delete' + this.props.className} id='modalCenter'>
-                        <ModalHeader toggle={this.toggleExport}><i className='fa fa-download mr-1' ></i> Download Options</ModalHeader>
-                        <ModalBody className='modalbody text-center mt-2 mb-2'>
-                          <Button color="primary" className='mr-4' onClick={this.toggleExport}>Excel Sheet (.csv)</Button>{' '}
-                          <Button color="primary" className='mr-4' onClick={this.toggleExport}>PDF Doc (.pdf)</Button>{' '}
-                          <Button color="primary" onClick={this.toggleExport}>Word Doc (.docx)</Button>
-                        </ModalBody>
-                      </Modal> */}
+
                 </div>
               </CardHeader>
              <CardBody className=' pb-2 mb-0'>
@@ -264,7 +272,7 @@ class Contact extends Component {
           </Col>
         </Row>
       </div>
-    );
+  );
   }
 }
 

@@ -20,9 +20,10 @@ export class InfoSheet extends Component {
 
   //modal change, trigger delete event upon confirm
   handleChange(){
+    this.DeleteRow();
     this.setState({
       delete: !this.state.delete,
-    }, this.DeleteRow);
+    });
   };
 
   //modal change, trigger delete event upon cancel

@@ -86,7 +86,7 @@ class DefaultHeader extends Component {
         <Nav className="ml-auto" navbar>
           {/* Add Contact Modal */}
           <NavItem>
-            <Add />
+            <Add updateInfo = {this.props.updateInfo}/>
           </NavItem>
           {/* Reminder popover */}
           <NavItem className="d-md-down-none">

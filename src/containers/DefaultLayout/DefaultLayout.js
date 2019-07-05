@@ -17,6 +17,18 @@ const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 
 class DefaultLayout extends Component {
+  constructor(props) {
+    super(props);
+    this.updateInfo = this.updateInfo.bind(this);
+    this.state = {
+      contactUpdated: false,
+    }
+  }
+
+  updateInfo(bool){
+    console.log(bool)
+    this.setState({contactUpdated: bool,})
+  }
 
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
   
@@ -33,7 +45,9 @@ class DefaultLayout extends Component {
         {/* App header component */}
         <AppHeader fixed className='frameheader shadow'>
           <Suspense  fallback={this.loading()}>
-            <DefaultHeader onLogout={e=>this.signOut(e)}/>
+            <DefaultHeader onLogout={e=>this.signOut(e)} 
+                           contactUpdated={this.state.contactUpdated}
+                           updateInfo={this.updateInfo}/>
           </Suspense>
         </AppHeader>
         <div className="app-body">
@@ -58,7 +72,9 @@ class DefaultLayout extends Component {
                         exact={route.exact}
                         name={route.name}
                         render={props => (
-                          <route.component {...props} />
+                          <route.component {...props} 
+                                            contactUpdated={this.state.contactUpdated}
+                                            updateInfo={this.updateInfo}/>
                         )} />
                     ) : (null);
                   })}
