@@ -9,15 +9,16 @@ class Pagecomponent extends Component {
         super(props)
         this.state = {
             currentPage: 1,
-            totalPage:10, 
+            totalPage:10
         }
     }
-
-    componentDidMount() {
+    
+    componentDidUpdate(){
+        if (this.props.totalPage !== this.state.totalPage || (this.props.currentPage !== this.state.currentPage)){
         this.setState({
             currentPage: this.props.currentPage,
             totalPage: this.props.totalPage
-        })
+        })}
     }
     
     prePageHandeler() {
@@ -34,7 +35,8 @@ class Pagecomponent extends Component {
     }
 
     nextPageHandeler() {
-        let {currentPage,totalPage} = this.state
+        let {currentPage,totalPage} = this.state;
+        console.log(totalPage, currentPage)
         const getCurrentPage = this.props.paginate;
         if (++currentPage > totalPage) {
             return false
@@ -49,7 +51,7 @@ class Pagecomponent extends Component {
             <span>
                 <Button color="primary" 
                         outline 
-                        className={this.state.currentPage >= 2 ? "nomore mr-2 float-right" : "mr-2 float-right" } 
+                        className={(this.state.currentPage ===this.state.totalPage) ? "nomore mr-2 float-right" : "mr-2 float-right" } 
                         onClick={this.nextPageHandeler.bind(this)} 
                         size='sm'>
                 <i className='fa fa-chevron-right'></i>

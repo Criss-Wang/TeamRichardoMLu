@@ -25,6 +25,20 @@ class Pagecomponent extends Component {
         })
     }
 
+    componentDidUpdate(){
+        if(this.state.totalItem !== this.props.totalItem ||
+            this.state.currentPage !== this.props.currentPage ||
+            this.state.itemsPerpage !== this.props.itemsPerpage ||
+            this.state.totalPage !== this.props.totalPage){
+            this.setState({
+                totalItem: this.props.totalItem,
+                currentPage: this.props.currentPage,
+                itemsPerpage : this.props.itemsPerpage,
+                totalPage: this.props.totalPage
+            })
+        }
+    }
+
     // Create the pagination display
     createNav() {
         const {currentPage, groupCount, totalPage} = this.state;

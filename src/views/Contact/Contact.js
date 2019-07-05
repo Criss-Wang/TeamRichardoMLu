@@ -31,6 +31,7 @@ const exportlist = [
   { label: "Email", key: "Email" },
   { label: "Social_Account: Facebook", key: "Social_Account.Facebook" },
   { label: "Social_Account: Twitter", key: "Social_Account.Twitter" },
+  { label: "Note", key: "note" },
 ]
 
 class Contact extends Component {

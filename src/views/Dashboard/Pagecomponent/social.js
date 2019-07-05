@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Button, Modal, ModalBody, ModalHeader} from 'reactstrap';
-import {Link} from 'react-router-dom';
 
 export class InfoSheet extends Component {
   constructor(props) {
@@ -27,8 +26,8 @@ export class InfoSheet extends Component {
             className={'modal-primary' + this.props.className} id='modalCenter'>
             <ModalHeader toggle={this.toggleSocial}><i className='fa fa-comments-o mr-1' ></i> Social Contact</ModalHeader>
             <ModalBody className='modalbody text-center mt-2 mb-2'>
-              <Button color="primary" className='mr-4' onClick={this.toggleSocial}><a className='social-btn' href='https://www.facebook.com/'><i className='fa fa-facebook mr-2' ></i> {this.state.facebook}</a></Button>{' '}
-              <Button color="primary" className='mr-4' onClick={this.toggleSocial}><a className='social-btn' href='https://twitter.com/'><i className='fa fa-twitter mr-2' ></i> {this.state.twitter}</a></Button>
+              <Button color="primary" className='mr-4' onClick={this.toggleSocial}><i className='fa fa-facebook mr-2' ></i> {this.state.facebook}</Button>{' '}
+              <Button color="primary" className='mr-4' onClick={this.toggleSocial}><i className='fa fa-twitter mr-2' ></i> {this.state.twitter}</Button>
             </ModalBody>
           </Modal>
           </span>

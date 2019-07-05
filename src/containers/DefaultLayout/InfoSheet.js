@@ -13,8 +13,11 @@ export class InfoSheet extends Component {
     this.togglesubmit = this.togglesubmit.bind(this);
     this.onRadio = this.onRadio.bind(this);
     this.TagDisplay = this.TagDisplay.bind(this);
+    this.uploadImage = this.uploadImage.bind(this);
+
     this.state = {
       modal: false,
+      loading: false,
       // Infos
       firstName: '',
       lastName: '',
@@ -36,6 +39,24 @@ export class InfoSheet extends Component {
       img: '',
       newTags: ['',]
     };
+  }
+  //image upload
+  uploadImage = async e => {
+    const files = e.target.files
+    const data = new FormData()
+    data.append('file', files[0])
+    data.append('upload_preset', 'nru4rcgx')
+    this.setState({loading:true})
+    const res = await fetch('https://api.cloudinary.com/v1_1/crisswang1998/image/upload',{
+        method: 'POST',
+        body: data
+      }
+    )
+    const file = await res.json();
+    this.setState({
+      img:file.secure_url,
+      loading:false 
+    })
   }
   //Delete Tags function
   delTags(i){
@@ -218,7 +239,8 @@ export class InfoSheet extends Component {
                     {/*Image Uploading */}
                     <Col md='3' className='text-center mt-3'>
                         <img src={this.state.img ? this.state.img : '../../assets/img/avatars/6.jpg'} className="img-avatar mb-3" alt="admin@bootstrapmaster.com" />
-                        <Input type='file' className='inputhere' onChange={this.onChange}/>
+                        <Input type='file' name="file" className='inputhere' onChange={this.uploadImage}/>
+                        <h6>{this.state.loading?'loading':null}</h6>
                     </Col>
                   </Row>
                   {/*Sex and Birthday */}
